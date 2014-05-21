@@ -1,9 +1,6 @@
 #!/bin/bash
-
-EXECUTABLE=../stag
 OUT=/dev/null
-
-FREQUENCY=0.2
+FREQUENCY=0.5
 
 if [[ -n "$1" ]]
 then
@@ -14,4 +11,4 @@ while true;
 do
     echo $[ RANDOM % 100 ];
     sleep $FREQUENCY;
-done | tee $OUT | $EXECUTABLE
+done | tee $OUT | ./stag
