@@ -13,7 +13,7 @@ void print_values(float *values, int current_i) {
   fprintf(stdout, "\n");
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
   int status = 1;
   int values_i = 0;
   float v;
