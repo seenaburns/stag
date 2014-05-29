@@ -1,3 +1,8 @@
+// Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
+#define _XOPEN_SOURCE_EXTENDED 1
+// Include wide char version of ncurses
+#include <ncursesw/ncurses.h>
+
 // stdio for file I/O
 #include <stdio.h>
 
