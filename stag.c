@@ -1,26 +1,15 @@
 // Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
 #define _XOPEN_SOURCE_EXTENDED 1
-// Include wide char version of ncurses
-#include <ncursesw/ncurses.h>
 // For setlocale to enable ncurses wide char
 #include <locale.h>
-
 // stdio for file I/O
 #include <stdio.h>
 
+// view for ncurses functionality
+#include "view.h"
+
 // Settings
 #define HISTORY_SIZE 5
-
-// View settings
-// Margins: Top, Left, Right, Bottom
-#define T_MARGIN 1
-#define L_MARGIN 1
-#define R_MARGIN 1
-#define B_MARGIN 0
-
-// X, Y Axis size
-#define Y_AXIS_SIZE 2
-#define X_AXIS_SIZE 2
 
 void print_values(float *values, int current_i) {
   // Print values to stdout, starting from one after newest (oldest) and
@@ -30,22 +19,6 @@ void print_values(float *values, int current_i) {
     fprintf(stdout, "%.1f, ", values[i%HISTORY_SIZE]);
   }
   fprintf(stdout, "\n");
-}
-
-typedef struct stag_win {
-  int x;
-  int y;
-  int width;
-  int height;
-  WINDOW *win;
-} stag_win_t;
-
-void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
-  win->win = newwin(height, width, y, x);
-  win->x = x;
-  win->y = y;
-  win->width = width;
-  win->height = height;
 }
 
 int main(int argc, char **argv) {

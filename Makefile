@@ -4,6 +4,6 @@ LIBS= -L/usr/local/opt/ncurses/lib -I/usr/local/opt/ncurses/include -lncurses
 
 all: stag
 stag:
-	$(CC) $(CFLAGS) $(LIBS) stag.c -o stag
+	$(CC) $(CFLAGS) $(LIBS) stag.c view.c -o stag
 clean:
 	rm -rf *.o stag
