@@ -12,8 +12,15 @@
 #define HISTORY_SIZE 5
 
 // View settings
-#define X_MARGIN 1
-#define Y_MARGIN 1
+// Margins: Top, Left, Right, Bottom
+#define T_MARGIN 1
+#define L_MARGIN 1
+#define R_MARGIN 1
+#define B_MARGIN 0
+
+// X, Y Axis size
+#define Y_AXIS_SIZE 2
+#define X_AXIS_SIZE 2
 
 void print_values(float *values, int current_i) {
   // Print values to stdout, starting from one after newest (oldest) and
@@ -60,7 +67,11 @@ int main(int argc, char **argv) {
 
   // Y axis
   stag_win_t y_axis_win;
-  init_stag_win(&y_axis_win, row-Y_MARGIN*2-2, 2, Y_MARGIN, col-X_MARGIN-2);
+  init_stag_win(&y_axis_win,
+                row-(T_MARGIN+B_MARGIN)-X_AXIS_SIZE,
+                Y_AXIS_SIZE,
+                T_MARGIN,
+                col-R_MARGIN-Y_AXIS_SIZE);
   for(i = 0; i < y_axis_win.height; i++) {
     mvwaddch(y_axis_win.win, i, 0, ACS_VLINE);
   }
@@ -69,7 +80,11 @@ int main(int argc, char **argv) {
 
   // X axis
   stag_win_t x_axis_win;
-  init_stag_win(&x_axis_win, 2, col-X_MARGIN*2-y_axis_win.width, row-Y_MARGIN-2, X_MARGIN);
+  init_stag_win(&x_axis_win,
+                X_AXIS_SIZE,
+                col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
+                row-B_MARGIN-X_AXIS_SIZE,
+                L_MARGIN);
   for(i = 0; i < x_axis_win.width; i++) {
     mvwaddch(x_axis_win.win, 0, i, ACS_HLINE);
   }
