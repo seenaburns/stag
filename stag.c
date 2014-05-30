@@ -65,6 +65,15 @@ int main(int argc, char **argv) {
   char title[] = "An example title that could be very long and extend past the length of a single line";
   draw_title(&title_win, title);
 
+  stag_win_t graph_win;
+  init_stag_win(&graph_win,
+                row-(T_MARGIN+B_MARGIN)-X_AXIS_SIZE-TITLE_HEIGHT,
+                col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
+                T_MARGIN+TITLE_HEIGHT,
+                L_MARGIN);
+  box(graph_win.win, ACS_VLINE, ACS_HLINE);
+  wrefresh(graph_win.win);
+
   // Read floats to values, circle around after filling buffer 
   while(status != EOF) {
     status = fscanf(stdin, "%f\n", &v);
