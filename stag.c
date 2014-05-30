@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
                 col-(L_MARGIN+R_MARGIN),
                 T_MARGIN,
                 L_MARGIN);
-  char title[] = "An example title";
+  char title[] = "An example title that could be very long and extend past the length of a single line";
   draw_title(&title_win, title);
 
   // Read floats to values, circle around after filling buffer 

@@ -31,8 +31,25 @@ void draw_x_axis(stag_win_t *x_axis_win, int splits) {
   wrefresh(x_axis_win->win);
 }
 
+int centered_x(stag_win_t *win, char *s) {
+  int x = ((win->width)-strlen(s))/2;
+  if(x < 0)
+    return 0;
+
+  return x;
+}
+
 void draw_title(stag_win_t *title_win, char *title) {
-  int startx = ((title_win->width)-strlen(title))/2;
-  mvwaddstr(title_win->win, 0, startx, title);
+  int i = 0;
+  int title_i = 0;
+  int title_len = strlen(title);
+
+  for(i = 0; i<title_win->height && title_i < title_len; i++) {
+    char partial_title[title_win->width];
+    strncpy(partial_title, title+title_i, title_win->width);
+    int startx = centered_x(title_win, partial_title);
+    mvwaddnstr(title_win->win, i, startx, partial_title, title_win->width);
+    title_i += title_win->width;
+  }
   wrefresh(title_win->win);
 }
