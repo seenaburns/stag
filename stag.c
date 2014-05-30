@@ -26,7 +26,6 @@ int main(int argc, char **argv) {
   int values_i = 0;
   float v;
   float values[HISTORY_SIZE];
-  int i;
   
   // Initialize ncurses
   int row, col;
@@ -45,10 +44,7 @@ int main(int argc, char **argv) {
                 Y_AXIS_SIZE,
                 T_MARGIN,
                 col-R_MARGIN-Y_AXIS_SIZE);
-  for(i = 0; i < y_axis_win.height; i++) {
-    mvwaddch(y_axis_win.win, i, 0, ACS_VLINE);
-  }
-  wrefresh(y_axis_win.win);
+  draw_y_axis(&y_axis_win, 0);
   
 
   // X axis
@@ -58,10 +54,7 @@ int main(int argc, char **argv) {
                 col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
                 row-B_MARGIN-X_AXIS_SIZE,
                 L_MARGIN);
-  for(i = 0; i < x_axis_win.width; i++) {
-    mvwaddch(x_axis_win.win, 0, i, ACS_HLINE);
-  }
-  wrefresh(x_axis_win.win);
+  draw_x_axis(&x_axis_win, 0);
 
   // Read floats to values, circle around after filling buffer 
   while(status != EOF) {

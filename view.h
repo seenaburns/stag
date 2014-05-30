@@ -26,5 +26,7 @@ typedef struct stag_win {
 } stag_win_t;
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
+void draw_y_axis(stag_win_t *y_axis_win, int splits);
+void draw_x_axis(stag_win_t *x_axis_win, int splits);
 
 #endif
