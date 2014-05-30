@@ -17,6 +17,10 @@
 #define Y_AXIS_SIZE 2
 #define X_AXIS_SIZE 2
 
+// Title padding
+#define TITLE_HEIGHT 2
+
+
 typedef struct stag_win {
   int x;
   int y;
@@ -28,5 +32,6 @@ typedef struct stag_win {
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
 void draw_y_axis(stag_win_t *y_axis_win, int splits);
 void draw_x_axis(stag_win_t *x_axis_win, int splits);
+void draw_title(stag_win_t *title_win, char *title);
 
 #endif

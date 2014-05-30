@@ -40,9 +40,9 @@ int main(int argc, char **argv) {
   // Y axis
   stag_win_t y_axis_win;
   init_stag_win(&y_axis_win,
-                row-(T_MARGIN+B_MARGIN)-X_AXIS_SIZE,
+                row-(T_MARGIN+B_MARGIN)-X_AXIS_SIZE-TITLE_HEIGHT,
                 Y_AXIS_SIZE,
-                T_MARGIN,
+                T_MARGIN+TITLE_HEIGHT,
                 col-R_MARGIN-Y_AXIS_SIZE);
   draw_y_axis(&y_axis_win, 0);
   
@@ -55,6 +55,15 @@ int main(int argc, char **argv) {
                 row-B_MARGIN-X_AXIS_SIZE,
                 L_MARGIN);
   draw_x_axis(&x_axis_win, 0);
+
+  stag_win_t title_win;
+  init_stag_win(&title_win,
+                TITLE_HEIGHT,
+                col-(L_MARGIN+R_MARGIN),
+                T_MARGIN,
+                L_MARGIN);
+  char title[] = "An example title";
+  draw_title(&title_win, title);
 
   // Read floats to values, circle around after filling buffer 
   while(status != EOF) {
