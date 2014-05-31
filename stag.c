@@ -69,7 +69,16 @@ int main(int argc, char **argv) {
     status = fscanf(stdin, "%f\n", &v);
     if(status == 1) {
       add_value(&values, v);
-      draw_bar(&graph_win, v, values.max);
+      int i =0;
+      wclear(graph_win.win);
+      wrefresh(graph_win.win);
+      for(i = 0; i<values.size; i++) {
+        int j = (values.i+1+i) % values.size;
+        draw_bar(&graph_win, graph_win.width-1-i, values.values[j], values.max);
+      }
+      mvwprintw(graph_win.win, 0, 10, "%.0f", v);
+      mvwprintw(graph_win.win, 1, 10, "%.0f", values.max);
+      wrefresh(graph_win.win);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }

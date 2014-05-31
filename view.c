@@ -2,6 +2,8 @@
 #include <string.h>
 // wchar for utf-8
 #include <wchar.h>
+// math for ceil
+#include <math.h>
 
 #include "view.h"
 
@@ -65,10 +67,29 @@ void draw_title(stag_win_t *title_win, char *title) {
   wrefresh(title_win->win);
 }
 
-void draw_bar(stag_win_t *graph_win, float v, float max) {
-  wchar_t upper_half_block = L'\u2580';
-  mvwadd_wchar(graph_win->win, graph_win->height-1, graph_win->width-2, upper_half_block);
-  wrefresh(graph_win->win);
-  
+void draw_bar(stag_win_t *graph_win, int x, float v, float max) {
+  // No widechars for now
+  // wchar_t upper_half_block = L'\u2584';
+  // wchar_t lower_half_block = L'\u2584';
+  // wchar_t full_block = L'\u2589';
+
+  if(max <= 0)
+    return;
+
+  float height =  ceil(v/max * graph_win->height);
+
+  // First block is half block
+  float i = 0; 
+  wattron(graph_win->win, A_REVERSE);
+  for(i = 0; i < height; i++) {
+    mvwaddch(graph_win->win, graph_win->height-1-i, x, ' ');
+  }
+  wattroff(graph_win->win,A_REVERSE);
+ 
+  wattron(graph_win->win, A_UNDERLINE);
+  mvwaddch(graph_win->win, graph_win->height-1, x-1, ' ');
+  wattroff(graph_win->win, A_UNDERLINE);
+
+  wrefresh(graph_win->win);  
   move(0,0);
 }
