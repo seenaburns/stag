@@ -13,5 +13,6 @@ typedef struct values {
 
 void init_values(values_t *values);
 void add_value(values_t *values, float v);
+float previous_value(values_t *values);
 
 #endif

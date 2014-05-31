@@ -30,3 +30,9 @@ void add_value(values_t *values, float v) {
   values->i %= values->size;
   values->max = find_max(values);
 }
+
+float previous_value(values_t *values) {
+  // Return value at index i-1 (with wrapping)
+  int i = (values->i + values->size -1) % values->size;
+  return values->values[i];
+}
