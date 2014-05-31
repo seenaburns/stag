@@ -1,7 +1,18 @@
 // String.h for strlen
 #include <string.h>
+// wchar for utf-8
+#include <wchar.h>
 
 #include "view.h"
+
+void mvwadd_wchar(WINDOW *win, int y, int x, const int c) {
+  // wchar mvwaddch, must convert to cchar_t for ncursesw
+  cchar_t cc = {
+    0,    // attribute
+    {c,0} // cchar
+  };
+  mvwadd_wch(win, y, x, &cc);
+}
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
   win->win = newwin(height, width, y, x);
@@ -52,4 +63,12 @@ void draw_title(stag_win_t *title_win, char *title) {
     title_i += title_win->width;
   }
   wrefresh(title_win->win);
+}
+
+void draw_bar(stag_win_t *graph_win, float v, float max) {
+  wchar_t upper_half_block = L'\u2580';
+  mvwadd_wchar(graph_win->win, graph_win->height-1, graph_win->width-2, upper_half_block);
+  wrefresh(graph_win->win);
+  
+  move(0,0);
 }

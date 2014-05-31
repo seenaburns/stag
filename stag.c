@@ -57,7 +57,7 @@ int main(int argc, char **argv) {
                 col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
                 T_MARGIN+TITLE_HEIGHT,
                 L_MARGIN);
-  box(graph_win.win, ACS_VLINE, ACS_HLINE);
+  //box(graph_win.win, ACS_VLINE, ACS_HLINE);
   wrefresh(graph_win.win);
 
   // Read floats to values, circle around after filling buffer 
@@ -69,6 +69,7 @@ int main(int argc, char **argv) {
     status = fscanf(stdin, "%f\n", &v);
     if(status == 1) {
       add_value(&values, v);
+      draw_bar(&graph_win, v, values.max);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }
