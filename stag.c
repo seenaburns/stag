@@ -15,7 +15,6 @@ int main(int argc, char **argv) {
   
   // Initialize ncurses
   int row, col;
-  int ch;
   setlocale(LC_ALL, "");
   initscr();
   noecho();
@@ -57,7 +56,6 @@ int main(int argc, char **argv) {
                 col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
                 T_MARGIN+TITLE_HEIGHT,
                 L_MARGIN);
-  //box(graph_win.win, ACS_VLINE, ACS_HLINE);
   wrefresh(graph_win.win);
 
   // Read floats to values, circle around after filling buffer 
@@ -69,24 +67,26 @@ int main(int argc, char **argv) {
     status = fscanf(stdin, "%f\n", &v);
     if(status == 1) {
       add_value(&values, v);
-      int i =0;
+
+      // Redraw graph
       wclear(graph_win.win);
       wrefresh(graph_win.win);
+
+      int i = 0;
       for(i = 0; i<values.size; i++) {
-        int j = (values.i+1+i) % values.size;
-        draw_bar(&graph_win, graph_win.width-1-i, values.values[j], values.max);
+        int j = (values.i+i) % values.size;
+        int offset = (values.size - 1) - i;
+        draw_bar(&graph_win,
+                 graph_win.width-1-offset,
+                 values.values[j],
+                 values.max);
       }
-      mvwprintw(graph_win.win, 0, 10, "%.0f", v);
-      mvwprintw(graph_win.win, 1, 10, "%.0f", values.max);
+      mvwprintw(graph_win.win, 2, 10, "%.0f", v);
+      mvwprintw(graph_win.win, 3, 10, "%.0f", values.max);
       wrefresh(graph_win.win);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }
-    
-    ch = getch();
-    if(ch == 'q')
-      break;
-    refresh();
   }
 
   endwin();
