@@ -11,11 +11,10 @@
 #define T_MARGIN 1
 #define L_MARGIN 1
 #define R_MARGIN 1
-#define B_MARGIN 0
+#define B_MARGIN 1
 
-// X, Y Axis size
+// Y Axis size
 #define Y_AXIS_SIZE 2
-#define X_AXIS_SIZE 2
 
 // Title padding
 #define TITLE_HEIGHT 2
@@ -31,8 +30,8 @@ typedef struct stag_win {
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
 void draw_y_axis(stag_win_t *y_axis_win, int splits);
-void draw_x_axis(stag_win_t *x_axis_win, int splits);
 void draw_title(stag_win_t *title_win, char *title);
 void draw_bar(stag_win_t *graph_win, int x, float v, float max);
+void draw_graph_axis(stag_win_t *graph_win);
 
 #endif

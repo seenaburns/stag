@@ -34,16 +34,6 @@ void draw_y_axis(stag_win_t *y_axis_win, int splits) {
   wrefresh(y_axis_win->win);
 }
 
-void draw_x_axis(stag_win_t *x_axis_win, int splits) {
-  int i = 0;
-  for(i = 0; i < x_axis_win->width; i++) {
-    mvwaddch(x_axis_win->win, 0, i, ACS_HLINE);
-  }
-  mvwaddch(x_axis_win->win, 0, 0, ACS_TTEE);
-  mvwaddch(x_axis_win->win, 0, x_axis_win->width-1, ACS_TTEE);
-  wrefresh(x_axis_win->win);
-}
-
 int centered_x(stag_win_t *win, char *s) {
   int x = ((win->width)-strlen(s))/2;
   if(x < 0)
@@ -83,4 +73,12 @@ void draw_bar(stag_win_t *graph_win, int x, float v, float max) {
   for(i = 0; i < height; i++)
     mvwaddch(graph_win->win, graph_win->height-1-i, x, ' ');
   wattroff(graph_win->win,A_REVERSE);
+}
+
+void draw_graph_axis(stag_win_t *graph_win) {
+  int i = 0;
+  wattron(graph_win->win, A_UNDERLINE);
+  for(i = 0; i < graph_win->width; i++)
+    mvwaddch(graph_win->win, graph_win->height-1, i, ' ');
+  wattroff(graph_win->win, A_UNDERLINE);
 }
