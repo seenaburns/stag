@@ -4,6 +4,10 @@
 #include <locale.h>
 // stdio for file I/O
 #include <stdio.h>
+// getopt for argument parsing (getopt_long)
+#include <getopt.h>
+// string for strncpy
+#include <string.h>
 
 // view for ncurses functionality
 #include "view.h"
@@ -11,6 +15,26 @@
 #include "data.h"
 
 int main(int argc, char **argv) {
+  char title[256] = "stag";
+
+  char opt;
+  struct option long_options[] =
+    {
+      {"title", required_argument, 0, 't'},
+      {0,0,0,0}
+    };
+  int option_index = 0;
+  while((opt = getopt_long(argc, argv, "t:", long_options, &option_index)) != -1) {
+    switch (opt) {
+      case 't':
+        strncpy(title, optarg, 255);
+        break;
+
+      default:
+        break;
+    }
+  }
+
   int status = 1;
   
   // Initialize ncurses
@@ -37,7 +61,6 @@ int main(int argc, char **argv) {
                 col-(L_MARGIN+R_MARGIN),
                 T_MARGIN,
                 L_MARGIN);
-  char title[] = "An example title that could be very long and extend past the length of a single line";
   draw_title(&title_win, title);
 
   stag_win_t graph_win;
