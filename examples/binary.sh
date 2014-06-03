@@ -17,4 +17,4 @@ do
         echo 0.0
     fi
     sleep $FREQUENCY;
-done | tee $OUT | ./stag
+done | tee $OUT | ./stag --title "Random Binary Data"

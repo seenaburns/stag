@@ -11,4 +11,4 @@ while true;
 do
     echo $[ RANDOM % 100 ];
     sleep $FREQUENCY;
-done | tee $OUT | ./stag
+done | tee $OUT | ./stag --title "Random Data Over Time"
