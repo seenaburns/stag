@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
   // Read floats to values, circle around after filling buffer 
   float v;
   values_t values;
-  init_values(&values);
+  init_values(&values, graph_win.width);
 
   while(status != EOF) {
     status = fscanf(stdin, "%f\n", &v);
@@ -130,4 +130,5 @@ int main(int argc, char **argv) {
 
   endwin();
 
+  dealloc_values(&values);
 }
