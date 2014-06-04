@@ -22,25 +22,27 @@ typedef struct margins {
 
 void init_margins_from_string(margins_t *margins, char *s) {
   // String of format t,r,b,l
-  margins->t = atoi(strsep(&s, ","))
-  margins->r = atoi(strsep(&s, ","))
-  margins->b = atoi(strsep(&s, ","))
-  margins->l = atoi(strsep(&s, ","))
+  margins->t = atoi(strsep(&s, ","));
+  margins->r = atoi(strsep(&s, ","));
+  margins->b = atoi(strsep(&s, ","));
+  margins->l = atoi(strsep(&s, ","));
 }
 
 int main(int argc, char **argv) {
   char title[256] = "stag";
   char margin_s[100] = "1,1,0,1"; //t,r,b,l as in css
+  int scale = -1;
 
   char opt;
   struct option long_options[] =
     {
-      {"title", required_argument, 0, 't'},
-      {"margin", required_argument, 0, 'm'},
+      {"title", required_argument, 0, 't'}, // Graph title
+      {"margin", required_argument, 0, 'm'}, // Window margins, t,r,b,l
+      {"scale", required_argument, 0, 's'}, // max y value
       {0,0,0,0}
     };
   int option_index = 0;
-  while((opt = getopt_long(argc, argv, "t:m:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, "t:m:s:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 't':
         strncpy(title, optarg, 255);
@@ -48,6 +50,10 @@ int main(int argc, char **argv) {
 
       case 'm':
         strncpy(margin_s, optarg, 99);
+        break;
+
+      case 's':
+        scale = atoi(optarg);
         break;
 
       default:
@@ -109,6 +115,10 @@ int main(int argc, char **argv) {
 
       draw_graph_axis(&graph_win);
 
+      int barmax = values.max;
+      if(scale >= 0)
+        barmax = scale;
+
       int i = 0;
       for(i = 0; i<values.size; i++) {
         int j = (values.i+i) % values.size;
@@ -116,7 +126,7 @@ int main(int argc, char **argv) {
         draw_bar(&graph_win,
                  graph_win.width-1-offset,
                  values.values[j],
-                 values.max);
+                 barmax);
       }
       wrefresh(graph_win.win);
     } else {
