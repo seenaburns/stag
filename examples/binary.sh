@@ -1,11 +1,5 @@
 #!/bin/bash
-OUT=/dev/null
 FREQUENCY=0.5
-
-if [[ -n "$1" ]]
-then
-    OUT=$1
-fi
 
 while true;
 do
@@ -17,4 +11,4 @@ do
         echo 0.0
     fi
     sleep $FREQUENCY;
-done | tee $OUT | ./stag --title "Random Binary Data"
+done | ./stag --title "Random Binary Data" "$@"
