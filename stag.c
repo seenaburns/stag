@@ -8,32 +8,54 @@
 #include <getopt.h>
 // string for strncpy
 #include <string.h>
+// stdlib for atoi
+#include <stdlib.h>
 
 // view for ncurses functionality
 #include "view.h"
 // data for values history
 #include "data.h"
 
+typedef struct margins {
+  int t, r, b, l;
+} margins_t;
+
+void init_margins_from_string(margins_t *margins, char *s) {
+  // String of format t,r,b,l
+  margins->t = atoi(strsep(&s, ","))
+  margins->r = atoi(strsep(&s, ","))
+  margins->b = atoi(strsep(&s, ","))
+  margins->l = atoi(strsep(&s, ","))
+}
+
 int main(int argc, char **argv) {
   char title[256] = "stag";
+  char margin_s[100] = "1,1,0,1"; //t,r,b,l as in css
 
   char opt;
   struct option long_options[] =
     {
       {"title", required_argument, 0, 't'},
+      {"margin", required_argument, 0, 'm'},
       {0,0,0,0}
     };
   int option_index = 0;
-  while((opt = getopt_long(argc, argv, "t:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, "t:m:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 't':
         strncpy(title, optarg, 255);
+        break;
+
+      case 'm':
+        strncpy(margin_s, optarg, 99);
         break;
 
       default:
         break;
     }
   }
+  margins_t margins;
+  init_margins_from_string(&margins, margin_s);
 
   int status = 1;
   
@@ -49,26 +71,26 @@ int main(int argc, char **argv) {
   // Y axis
   stag_win_t y_axis_win;
   init_stag_win(&y_axis_win,
-                row-(T_MARGIN+B_MARGIN)-TITLE_HEIGHT,
+                row-(margins.t+margins.b)-TITLE_HEIGHT,
                 Y_AXIS_SIZE,
-                T_MARGIN+TITLE_HEIGHT,
-                col-R_MARGIN-Y_AXIS_SIZE);
+                margins.t+TITLE_HEIGHT,
+                col-margins.r-Y_AXIS_SIZE);
   draw_y_axis(&y_axis_win, 0);
   
   stag_win_t title_win;
   init_stag_win(&title_win,
                 TITLE_HEIGHT,
-                col-(L_MARGIN+R_MARGIN),
-                T_MARGIN,
-                L_MARGIN);
+                col-(margins.l+margins.r),
+                margins.t,
+                margins.l);
   draw_title(&title_win, title);
 
   stag_win_t graph_win;
   init_stag_win(&graph_win,
-                row-(T_MARGIN+B_MARGIN)-TITLE_HEIGHT,
-                col-(L_MARGIN+R_MARGIN)-Y_AXIS_SIZE,
-                T_MARGIN+TITLE_HEIGHT,
-                L_MARGIN);
+                row-(margins.t+margins.b)-TITLE_HEIGHT,
+                col-(margins.l+margins.r)-Y_AXIS_SIZE,
+                margins.t+TITLE_HEIGHT,
+                margins.l);
   wrefresh(graph_win.win);
 
   // Read floats to values, circle around after filling buffer 
