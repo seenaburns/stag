@@ -3,8 +3,7 @@
 
 // Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
 #define _XOPEN_SOURCE_EXTENDED 1
-// Include wide char version of ncurses
-#include <ncursesw/ncurses.h>
+#include <ncursesw/ncurses.h> // Include wide char version of ncurses
 
 // View settings
 // Margins: Top, Left, Right, Bottom

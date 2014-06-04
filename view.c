@@ -1,9 +1,6 @@
-// String.h for strlen
-#include <string.h>
-// wchar for utf-8
-#include <wchar.h>
-// math for ceil
-#include <math.h>
+#include <string.h> // strlen
+#include <wchar.h> // wchar, utf-8
+#include <math.h> // ceil
 
 #include "view.h"
 

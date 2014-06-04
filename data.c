@@ -1,5 +1,4 @@
-// String.h for memset
-#include <string.h>
+#include <string.h> // memset
 
 #include "data.h"
 

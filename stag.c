@@ -1,20 +1,14 @@
 // Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
 #define _XOPEN_SOURCE_EXTENDED 1
-// For setlocale to enable ncurses wide char
-#include <locale.h>
-// stdio for file I/O
-#include <stdio.h>
-// getopt for argument parsing (getopt_long)
-#include <getopt.h>
-// string for strncpy
-#include <string.h>
-// stdlib for atoi
-#include <stdlib.h>
 
-// view for ncurses functionality
-#include "view.h"
-// data for values history
-#include "data.h"
+#include <locale.h> // setlocale to enable ncurses wide char
+#include <stdio.h> // file I/O
+#include <getopt.h> // argument parsing (getopt_long)
+#include <string.h> // strncpy
+#include <stdlib.h> // atoi
+
+#include "view.h" // ncurses functionality
+#include "data.h" // values history
 
 typedef struct margins {
   int t, r, b, l;
