@@ -64,6 +64,7 @@ int main(int argc, char **argv) {
   // setlocale(LC_ALL, "");
   initscr();
   noecho();
+  curs_set(0);
   getmaxyx(stdscr,row,col);
   halfdelay(5);
   refresh();
