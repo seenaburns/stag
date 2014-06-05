@@ -1,17 +1,18 @@
 #include <string.h> // strlen
-#include <wchar.h> // wchar, utf-8
+// #include <wchar.h> // wchar, utf-8
 #include <math.h> // ceil
 
 #include "view.h"
 
-void mvwadd_wchar(WINDOW *win, int y, int x, const int c) {
+// Implement when wide chars are actually used
+/* void mvwadd_wchar(WINDOW *win, int y, int x, const int c) {
   // wchar mvwaddch, must convert to cchar_t for ncursesw
   cchar_t cc = {
     0,    // attribute
     {c,0} // cchar
   };
   mvwadd_wch(win, y, x, &cc);
-}
+  } */
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
   win->win = newwin(height, width, y, x);

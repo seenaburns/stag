@@ -1,7 +1,7 @@
 // Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
-#define _XOPEN_SOURCE_EXTENDED 1
+// #define _XOPEN_SOURCE_EXTENDED 1
 
-#include <locale.h> // setlocale to enable ncurses wide char
+// #include <locale.h> // setlocale to enable ncurses wide char
 #include <stdio.h> // file I/O
 #include <getopt.h> // argument parsing (getopt_long)
 #include <string.h> // strncpy
@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
   
   // Initialize ncurses
   int row, col;
-  setlocale(LC_ALL, "");
+  // setlocale(LC_ALL, "");
   initscr();
   noecho();
   getmaxyx(stdscr,row,col);

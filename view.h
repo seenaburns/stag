@@ -2,8 +2,9 @@
 #define STAG_VIEW_H
 
 // Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
-#define _XOPEN_SOURCE_EXTENDED 1
-#include <ncursesw/ncurses.h> // Include wide char version of ncurses
+// #define _XOPEN_SOURCE_EXTENDED 1
+// #include <ncursesw/ncurses.h> // Include wide char version of ncurses
+#include <ncurses.h> // Use standard ncurses until wchar actually used
 
 // View settings
 // Margins: Top, Left, Right, Bottom
