@@ -17,7 +17,7 @@
 #define DEFAULT_B_MARGIN 1
 
 // Internal settings
-#define Y_AXIS_SIZE 2
+#define Y_AXIS_SIZE 6
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
                 Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 col-margins.r-Y_AXIS_SIZE);
-  draw_y_axis(&y_axis_win, 0);
+  draw_y_axis(&y_axis_win, 0, 0);
   
   stag_win_t title_win;
   init_stag_win(&title_win,
@@ -155,6 +155,9 @@ int main(int argc, char **argv) {
                  barmax);
       }
       wrefresh(graph_win.win);
+
+      // Update y axis values
+      draw_y_axis(&y_axis_win, 0, barmax);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }

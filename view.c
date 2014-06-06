@@ -22,13 +22,22 @@ void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
   win->height = height;
 }
 
-void draw_y_axis(stag_win_t *y_axis_win, int splits) {
+void draw_y_axis(stag_win_t *y_axis_win, float min, float max) {
+  wclear(y_axis_win->win);
+  wrefresh(y_axis_win->win);
+  
+  // Draw axis line
   int i = 0;
   for(i = 0; i < y_axis_win->height; i++) {
     mvwaddch(y_axis_win->win, i, 0, ACS_VLINE);
   }
   mvwaddch(y_axis_win->win, 0, 0, ACS_LTEE);
   mvwaddch(y_axis_win->win, y_axis_win->height-1, 0, ACS_LTEE);
+
+  // Draw axis values
+  mvwprintw(y_axis_win->win, 0, 2, "%.0f", max);
+  mvwprintw(y_axis_win->win, y_axis_win->height-1, 2, "%.0f", min);
+  
   wrefresh(y_axis_win->win);
 }
 
