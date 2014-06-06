@@ -6,20 +6,6 @@
 // #include <ncursesw/ncurses.h> // Include wide char version of ncurses
 #include <ncurses.h> // Use standard ncurses until wchar actually used
 
-// View settings
-// Margins: Top, Left, Right, Bottom
-#define T_MARGIN 1
-#define L_MARGIN 1
-#define R_MARGIN 1
-#define B_MARGIN 1
-
-// Y Axis size
-#define Y_AXIS_SIZE 2
-
-// Title padding
-#define TITLE_HEIGHT 2
-
-
 typedef struct stag_win {
   int x;
   int y;
