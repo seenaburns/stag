@@ -20,6 +20,7 @@ void init_values(values_t *values, size_t history_size) {
   values->values = malloc(history_size*sizeof(float));
   memset(values->values, 0, history_size*sizeof(float));
   values->max = 0;
+  values->global_max = 0;
   values->size = history_size;
   values->i = 0;
 }
@@ -29,7 +30,10 @@ void add_value(values_t *values, float v) {
   values->values[values->i] = v;
   values->i += 1;
   values->i %= values->size;
-  values->max = find_max(values);
+  float new_max = find_max(values);
+  values->max = new_max;
+  if(new_max > values->global_max)
+    values->global_max = new_max;
 }
 
 float previous_value(values_t *values) {

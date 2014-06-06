@@ -22,6 +22,10 @@
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 
+// Constants
+#define SCALE_DYNAMIC_MODE -1
+#define SCALE_GLOBAL_MODE -2
+
 // margins options struct
 typedef struct margins {
   int t, r, b, l;
@@ -47,7 +51,7 @@ int main(int argc, char **argv) {
   char margin_s[MAX_MARGINS_LENGTH];
   sprintf(margin_s, "%d,%d,%d,%d", DEFAULT_T_MARGIN,
           DEFAULT_R_MARGIN, DEFAULT_B_MARGIN, DEFAULT_L_MARGIN);
-  int scale = -1;
+  int scale = SCALE_DYNAMIC_MODE;
   
   while((opt = getopt_long(argc, argv, "t:m:s:", long_options, &option_index)) != -1) {
     switch (opt) {
@@ -60,7 +64,13 @@ int main(int argc, char **argv) {
         break;
 
       case 's':
-        scale = atoi(optarg);
+        // Accept dynamic, global as options
+        if(!strcmp(optarg, "dynamic"))
+          scale = SCALE_DYNAMIC_MODE;
+        else if(!strcmp(optarg, "global"))
+          scale = SCALE_GLOBAL_MODE;
+        else
+          scale = atoi(optarg);
         break;
 
       default:
@@ -126,9 +136,14 @@ int main(int argc, char **argv) {
 
       draw_graph_axis(&graph_win);
 
-      int barmax = values.max;
-      if(scale >= 0)
-        barmax = scale;
+      // Determine scale value
+      int barmax = scale;
+      if(scale == SCALE_DYNAMIC_MODE)
+        barmax = values.max;
+      else if(scale == SCALE_GLOBAL_MODE)
+        barmax = values.global_max;
+      else if(scale < SCALE_GLOBAL_MODE)
+        barmax = 0;
 
       int i = 0;
       for(i = 0; i<values.size; i++) {

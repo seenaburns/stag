@@ -7,6 +7,7 @@
 typedef struct values {
   float *values;
   float max;
+  float global_max;
   int size;
   int i;
 } values_t;
