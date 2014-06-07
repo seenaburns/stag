@@ -1,4 +1,5 @@
 #include <string.h> // strlen
+#include <stdio.h> // sprintf
 // #include <wchar.h> // wchar, utf-8
 #include <math.h> // ceil
 
@@ -22,6 +23,27 @@ void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
   win->height = height;
 }
 
+void format_axis_value(char *dest, float v) {
+  // Populate dest with formatted value, e.g. 1000->1k, 1000000->1M
+  char unitprefixes[9] = " KMGTPEZY";
+  float remainder = v;
+
+  // Special case for v < 1 and 0
+  if(v < 0.0001) {
+    sprintf(dest, "0");
+    return;
+  } else if(v < 1) {
+    sprintf(dest, ".%.3f", v);
+    return;
+  }
+  
+  int i = 0;
+  for(i = 0; i < 9 && remainder >= 1000; i++)
+    remainder /= 1000;
+
+  sprintf(dest, "%-.0f%c", remainder, unitprefixes[i]);
+}
+
 void draw_y_axis(stag_win_t *y_axis_win, float min, float max) {
   wclear(y_axis_win->win);
   wrefresh(y_axis_win->win);
@@ -35,8 +57,11 @@ void draw_y_axis(stag_win_t *y_axis_win, float min, float max) {
   mvwaddch(y_axis_win->win, y_axis_win->height-1, 0, ACS_LTEE);
 
   // Draw axis values
-  mvwprintw(y_axis_win->win, 0, 2, "%.0f", max);
-  mvwprintw(y_axis_win->win, y_axis_win->height-1, 2, "%.0f", min);
+  char axis_value[4];
+  format_axis_value(&axis_value[0], max);
+  mvwprintw(y_axis_win->win, 0, 2, "%s", axis_value);
+  format_axis_value(&axis_value[0], min);
+  mvwprintw(y_axis_win->win, y_axis_win->height-1, 2, "%s", axis_value);
   
   wrefresh(y_axis_win->win);
 }
