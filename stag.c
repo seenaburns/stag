@@ -118,6 +118,7 @@ int main(int argc, char **argv) {
                 col-(margins.l+margins.r)-Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 margins.l);
+  draw_graph_axis(&graph_win);
   wrefresh(graph_win.win);
 
   // Read floats to values, circle around after filling buffer 
