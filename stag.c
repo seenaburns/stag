@@ -21,7 +21,6 @@
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
-#define BAR_WIDTH 1
 
 // Constants
 #define SCALE_FIXED_MODE 0
@@ -49,6 +48,7 @@ int main(int argc, char **argv) {
     {"title", required_argument, 0, 't'}, // Graph title
     {"margin", required_argument, 0, 'm'}, // Window margins, t,r,b,l
     {"scale", required_argument, 0, 's'}, // max y value
+    {"width", required_argument, 0, 'w'}, // bar width
     {0,0,0,0}
   };
 
@@ -64,8 +64,9 @@ int main(int argc, char **argv) {
   scale.mode = SCALE_DYNAMIC_MODE;
   scale.min = 0;
   scale.max = 0;
+  int width = 1;
   
-  while((opt = getopt_long(argc, argv, "t:m:s:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, "t:m:s:w:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 't':
         strncpy(title, optarg, MAX_TITLE_LENGTH-1);
@@ -89,6 +90,12 @@ int main(int argc, char **argv) {
           printf("%s not recognized as input to --scale. See --help\n", optarg);
           exit(1);
         }
+        break;
+        
+      case 'w':
+        width = atoi(optarg);
+        if(width < 1)
+          width = 1;
         break;
 
       default:
@@ -169,9 +176,9 @@ int main(int argc, char **argv) {
         int j = (values.i+i) % values.size;
         int offset = values.size - i;
         draw_bar(&graph_win,
-                 graph_win.width-offset*BAR_WIDTH,
+                 graph_win.width-offset*width,
                  values.values[j],
-                 BAR_WIDTH,
+                 width,
                  scale.min,
                  scale.max);
       }
