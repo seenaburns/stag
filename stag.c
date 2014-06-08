@@ -21,6 +21,7 @@
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
+#define BAR_WIDTH 1
 
 // Constants
 #define SCALE_FIXED_MODE 0
@@ -166,10 +167,11 @@ int main(int argc, char **argv) {
       int i = 0;
       for(i = 0; i<values.size; i++) {
         int j = (values.i+i) % values.size;
-        int offset = (values.size - 1) - i;
+        int offset = values.size - i;
         draw_bar(&graph_win,
-                 graph_win.width-1-offset,
+                 graph_win.width-offset*BAR_WIDTH,
                  values.values[j],
+                 BAR_WIDTH,
                  scale.min,
                  scale.max);
       }
