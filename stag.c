@@ -21,6 +21,7 @@
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
+#define YAXIS_SPLITS 2
 
 // Constants
 #define SCALE_FIXED_MODE 0
@@ -128,7 +129,7 @@ int main(int argc, char **argv) {
                 Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 col-margins.r-Y_AXIS_SIZE);
-  draw_y_axis(&y_axis_win, scale.min, scale.max);
+  draw_y_axis(&y_axis_win, YAXIS_SPLITS, scale.min, scale.max);
   
   stag_win_t title_win;
   init_stag_win(&title_win,
@@ -185,7 +186,7 @@ int main(int argc, char **argv) {
       wrefresh(graph_win.win);
 
       // Update y axis values
-      draw_y_axis(&y_axis_win, scale.min, scale.max);
+      draw_y_axis(&y_axis_win, YAXIS_SPLITS, scale.min, scale.max);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }

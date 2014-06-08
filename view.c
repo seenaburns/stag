@@ -44,7 +44,7 @@ void format_axis_value(char *dest, float v) {
   sprintf(dest, "%-.0f%c", remainder, unitprefixes[i]);
 }
 
-void draw_y_axis(stag_win_t *y_axis_win, float min, float max) {
+void draw_y_axis(stag_win_t *y_axis_win, int splits, float min, float max) {
   wclear(y_axis_win->win);
   wrefresh(y_axis_win->win);
   
@@ -62,6 +62,18 @@ void draw_y_axis(stag_win_t *y_axis_win, float min, float max) {
   mvwprintw(y_axis_win->win, 0, 2, "%s", axis_value);
   format_axis_value(&axis_value[0], min);
   mvwprintw(y_axis_win->win, y_axis_win->height-1, 2, "%s", axis_value);
+
+  // Draw splits with axis values
+  int split_height_step = floor(y_axis_win->height/(splits+1));
+  int split_value_step = floor((max-min)/(splits+1));
+  for(i = 0; i < splits; i++) {
+    int split_v = (splits-i) * split_value_step;
+    int split_height = (i+1) * split_height_step;
+    mvwaddch(y_axis_win->win, split_height, 0, ACS_LTEE);
+    format_axis_value(&axis_value[0], split_v);
+    mvwprintw(y_axis_win->win, split_height, 2, "%s", axis_value);
+  }
+
   
   wrefresh(y_axis_win->win);
 }
