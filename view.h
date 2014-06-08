@@ -17,7 +17,7 @@ typedef struct stag_win {
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
 void draw_y_axis(stag_win_t *y_axis_win, float min, float max);
 void draw_title(stag_win_t *title_win, char *title);
-void draw_bar(stag_win_t *graph_win, int x, float v, float max);
+void draw_bar(stag_win_t *graph_win, int x, float v, float min, float max);
 void draw_graph_axis(stag_win_t *graph_win);
 
 #endif

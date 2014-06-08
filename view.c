@@ -89,7 +89,7 @@ void draw_title(stag_win_t *title_win, char *title) {
   wrefresh(title_win->win);
 }
 
-void draw_bar(stag_win_t *graph_win, int x, float v, float max) {
+void draw_bar(stag_win_t *graph_win, int x, float v, float min, float max) {
   // No widechars for now
   // wchar_t upper_half_block = L'\u2584';
   // wchar_t lower_half_block = L'\u2584';
@@ -98,7 +98,7 @@ void draw_bar(stag_win_t *graph_win, int x, float v, float max) {
   if(max <= 0)
     return;
 
-  float height =  ceil(v/max * graph_win->height);
+  float height =  ceil((v-min)/(max-min) * graph_win->height);
 
   float i = 0; 
   wattron(graph_win->win, A_REVERSE);

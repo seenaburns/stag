@@ -23,6 +23,7 @@
 #define MAX_MARGINS_LENGTH 30
 
 // Constants
+#define SCALE_FIXED_MODE 0
 #define SCALE_DYNAMIC_MODE -1
 #define SCALE_GLOBAL_MODE -2
 
@@ -30,6 +31,13 @@
 typedef struct margins {
   int t, r, b, l;
 } margins_t;
+
+// Y axis scale  struct
+typedef struct yscale {
+  int mode;
+  float min;
+  float max;
+} yscale_t;
 
 int main(int argc, char **argv) {
   int status = 1;
@@ -51,7 +59,10 @@ int main(int argc, char **argv) {
   char margin_s[MAX_MARGINS_LENGTH];
   sprintf(margin_s, "%d,%d,%d,%d", DEFAULT_T_MARGIN,
           DEFAULT_R_MARGIN, DEFAULT_B_MARGIN, DEFAULT_L_MARGIN);
-  int scale = SCALE_DYNAMIC_MODE;
+  yscale_t scale;
+  scale.mode = SCALE_DYNAMIC_MODE;
+  scale.min = 0;
+  scale.max = 0;
   
   while((opt = getopt_long(argc, argv, "t:m:s:", long_options, &option_index)) != -1) {
     switch (opt) {
@@ -65,18 +76,25 @@ int main(int argc, char **argv) {
 
       case 's':
         // Accept dynamic, global as options
-        if(!strcmp(optarg, "dynamic"))
-          scale = SCALE_DYNAMIC_MODE;
-        else if(!strcmp(optarg, "global"))
-          scale = SCALE_GLOBAL_MODE;
-        else
-          scale = atoi(optarg);
+        if(!strcmp(optarg, "dynamic")) {
+          scale.mode = SCALE_DYNAMIC_MODE;
+        } else if(!strcmp(optarg, "global")) {
+          scale.mode = SCALE_GLOBAL_MODE;
+        } else if(strchr(optarg, ',')){
+          scale.mode = SCALE_FIXED_MODE;
+          scale.min = atoi(strsep(&optarg, ","));
+          scale.max = atoi(strsep(&optarg, ","));
+        } else {
+          printf("%s not recognized as input to --scale. See --help\n", optarg);
+          exit(1);
+        }
         break;
 
       default:
         break;
     }
   }
+  
   // Create settings structs
   margins_t margins;
   char *ms = &margin_s[0];
@@ -102,7 +120,7 @@ int main(int argc, char **argv) {
                 Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 col-margins.r-Y_AXIS_SIZE);
-  draw_y_axis(&y_axis_win, 0, 0);
+  draw_y_axis(&y_axis_win, scale.min, scale.max);
   
   stag_win_t title_win;
   init_stag_win(&title_win,
@@ -138,13 +156,12 @@ int main(int argc, char **argv) {
       draw_graph_axis(&graph_win);
 
       // Determine scale value
-      int barmax = scale;
-      if(scale == SCALE_DYNAMIC_MODE)
-        barmax = values.max;
-      else if(scale == SCALE_GLOBAL_MODE)
-        barmax = values.global_max;
-      else if(scale < SCALE_GLOBAL_MODE)
-        barmax = 0;
+      if(scale.mode == SCALE_DYNAMIC_MODE)
+        scale.max = values.max;
+      else if(scale.mode == SCALE_GLOBAL_MODE)
+        scale.max = values.global_max;
+      else if(scale.max <= 0 || scale.max < scale.min)
+        scale.max = scale.min;
 
       int i = 0;
       for(i = 0; i<values.size; i++) {
@@ -153,12 +170,13 @@ int main(int argc, char **argv) {
         draw_bar(&graph_win,
                  graph_win.width-1-offset,
                  values.values[j],
-                 barmax);
+                 scale.min,
+                 scale.max);
       }
       wrefresh(graph_win.win);
 
       // Update y axis values
-      draw_y_axis(&y_axis_win, 0, barmax);
+      draw_y_axis(&y_axis_win, scale.min, scale.max);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }
