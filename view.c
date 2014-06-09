@@ -113,7 +113,10 @@ void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float
   // wchar_t lower_half_block = L'\u2584';
   // wchar_t full_block = L'\u2589';
 
-  if(max <= 0)
+  // Fail conditions
+  if(max-min == 0)
+    return;
+  if(x < 0)
     return;
 
   float height =  ceil((v-min)/(max-min) * graph_win->height);
