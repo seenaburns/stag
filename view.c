@@ -16,6 +16,7 @@
   } */
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
+  // Initalize window struct
   win->win = newwin(height, width, y, x);
   win->x = x;
   win->y = y;
@@ -45,6 +46,7 @@ void format_axis_value(char *dest, float v) {
 }
 
 void draw_y_axis(stag_win_t *y_axis_win, int splits, float min, float max) {
+  // Update y_axis with new line, splits and axis value labels
   wclear(y_axis_win->win);
   wrefresh(y_axis_win->win);
   
@@ -79,6 +81,7 @@ void draw_y_axis(stag_win_t *y_axis_win, int splits, float min, float max) {
 }
 
 int centered_x(stag_win_t *win, char *s) {
+  // Return starting x to place text as centered
   int x = ((win->width)-strlen(s))/2;
   if(x < 0)
     return 0;
@@ -87,6 +90,7 @@ int centered_x(stag_win_t *win, char *s) {
 }
 
 void draw_title(stag_win_t *title_win, char *title) {
+  // Draw title to window, centered and spaning multiple lines as needed
   int i = 0;
   int title_i = 0;
   int title_len = strlen(title);
@@ -102,6 +106,8 @@ void draw_title(stag_win_t *title_win, char *title) {
 }
 
 void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float max) {
+  // Draw new bar at position x according to value and graph scale
+
   // No widechars for now
   // wchar_t upper_half_block = L'\u2584';
   // wchar_t lower_half_block = L'\u2584';
@@ -123,6 +129,7 @@ void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float
 }
 
 void draw_graph_axis(stag_win_t *graph_win) {
+  // Draw underline for the x axis
   int i = 0;
   wattron(graph_win->win, A_UNDERLINE);
   for(i = 0; i < graph_win->width; i++)
