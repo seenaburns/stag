@@ -28,11 +28,6 @@
 #define SCALE_DYNAMIC_MODE -1
 #define SCALE_GLOBAL_MODE -2
 
-// margins options struct
-typedef struct margins {
-  int t, r, b, l;
-} margins_t;
-
 // Y axis scale  struct
 typedef struct yscale {
   int mode;
