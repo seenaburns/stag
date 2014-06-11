@@ -6,6 +6,11 @@
 // #include <ncursesw/ncurses.h> // Include wide char version of ncurses
 #include <ncurses.h> // Use standard ncurses until wchar actually used
 
+// CONSTANTS
+#define SCALE_FIXED_MODE 0
+#define SCALE_DYNAMIC_MODE 1
+#define SCALE_GLOBAL_MODE 2
+
 typedef struct stag_win {
   int x, y, width, height;
   WINDOW *win;
