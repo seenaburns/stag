@@ -72,7 +72,7 @@ void draw_y_axis(graph_t *graph) {
   int v_step = floor((max-min)/(splits+1));
   int height_step = floor(y_win->height/(splits+1));
   for(i = 0; i < splits; i++) {
-    int v = (splits-i) * v_step;
+    int v = (splits-i) * v_step + min;
     int height = (i+1) * height_step;
     mvwaddch(y_win->win, height, 0, ACS_LTEE);
     format_axis_value(&axis_label[0], v);
