@@ -107,6 +107,15 @@ int main(int argc, char **argv) {
   margins.b = atoi(strsep(&ms, ","));
   margins.l = atoi(strsep(&ms, ","));
 
+  graph_t graph;
+  graph.margins = &margins;
+  graph.title = title;
+  graph.bar_width = width;
+  graph.y_splits = YAXIS_SPLITS;
+  graph.scale_mode = scale.mode;
+  graph.scale_min = scale.min;
+  graph.scale_max = scale.max;
+
   // Initialize ncurses
   int row, col;
   // setlocale(LC_ALL, "");
@@ -117,15 +126,8 @@ int main(int argc, char **argv) {
   halfdelay(5);
   refresh();
 
-  // Y axis
-  stag_win_t y_axis_win;
-  init_stag_win(&y_axis_win,
-                row-(margins.t+margins.b)-TITLE_HEIGHT,
-                Y_AXIS_SIZE,
-                margins.t+TITLE_HEIGHT,
-                col-margins.r-Y_AXIS_SIZE);
-  draw_y_axis(&y_axis_win, YAXIS_SPLITS, scale.min, scale.max);
-  
+
+  // Title
   stag_win_t title_win;
   init_stag_win(&title_win,
                 TITLE_HEIGHT,
@@ -134,12 +136,24 @@ int main(int argc, char **argv) {
                 margins.l);
   draw_title(&title_win, title);
 
+  // Y axis
+  stag_win_t y_axis_win;
+  init_stag_win(&y_axis_win,
+                row-(margins.t+margins.b)-TITLE_HEIGHT,
+                Y_AXIS_SIZE,
+                margins.t+TITLE_HEIGHT,
+                col-margins.r-Y_AXIS_SIZE);
+  graph.y_win = &y_axis_win;
+  update_y_axis(&graph);
+  
+  // Graph content window
   stag_win_t graph_win;
   init_stag_win(&graph_win,
                 row-(margins.t+margins.b)-TITLE_HEIGHT,
                 col-(margins.l+margins.r)-Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 margins.l);
+  graph.graph_win = &graph_win;
   draw_graph_axis(&graph_win);
   wrefresh(graph_win.win);
 
@@ -180,8 +194,7 @@ int main(int argc, char **argv) {
       }
       wrefresh(graph_win.win);
 
-      // Update y axis values
-      draw_y_axis(&y_axis_win, YAXIS_SPLITS, scale.min, scale.max);
+      update_y_axis(&graph);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }

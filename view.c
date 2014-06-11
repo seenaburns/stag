@@ -45,39 +45,44 @@ void format_axis_value(char *dest, float v) {
   sprintf(dest, "%-.0f%c", remainder, unitprefixes[i]);
 }
 
-void draw_y_axis(stag_win_t *y_axis_win, int splits, float min, float max) {
-  // Update y_axis with new line, splits and axis value labels
-  wclear(y_axis_win->win);
-  wrefresh(y_axis_win->win);
+void update_y_axis(graph_t *graph) {
+  // Extract values from graph
+  stag_win_t *y_win = graph->y_win;
+  int splits = graph->y_splits;
+  int min = graph->scale_min;
+  int max = graph->scale_max;
+
+  wclear(y_win->win);
+  wrefresh(y_win->win);
   
   // Draw axis line
   int i = 0;
-  for(i = 0; i < y_axis_win->height; i++) {
-    mvwaddch(y_axis_win->win, i, 0, ACS_VLINE);
-  }
-  mvwaddch(y_axis_win->win, 0, 0, ACS_LTEE);
-  mvwaddch(y_axis_win->win, y_axis_win->height-1, 0, ACS_LTEE);
+  for(i = 0; i < y_win->height; i++)
+    mvwaddch(y_win->win, i, 0, ACS_VLINE);
 
   // Draw axis values
-  char axis_value[4];
-  format_axis_value(&axis_value[0], max);
-  mvwprintw(y_axis_win->win, 0, 2, "%s", axis_value);
-  format_axis_value(&axis_value[0], min);
-  mvwprintw(y_axis_win->win, y_axis_win->height-1, 2, "%s", axis_value);
+  char axis_label[4];
+  // Max
+  mvwaddch(y_win->win, 0, 0, ACS_LTEE);
+  format_axis_value(&axis_label[0], max);
+  mvwprintw(y_win->win, 0, 2, "%s", axis_label);
+  // Min
+  mvwaddch(y_win->win, y_win->height-1, 0, ACS_LTEE);
+  format_axis_value(&axis_label[0], min);
+  mvwprintw(y_win->win, y_win->height-1, 2, "%s", axis_label);
 
-  // Draw splits with axis values
-  int split_height_step = floor(y_axis_win->height/(splits+1));
-  int split_value_step = floor((max-min)/(splits+1));
+  // Draw split labels
+  int v_step = floor((max-min)/(splits+1));
+  int height_step = floor(y_win->height/(splits+1));
   for(i = 0; i < splits; i++) {
-    int split_v = (splits-i) * split_value_step;
-    int split_height = (i+1) * split_height_step;
-    mvwaddch(y_axis_win->win, split_height, 0, ACS_LTEE);
-    format_axis_value(&axis_value[0], split_v);
-    mvwprintw(y_axis_win->win, split_height, 2, "%s", axis_value);
+    int v = (splits-i) * v_step;
+    int height = (i+1) * height_step;
+    mvwaddch(y_win->win, height, 0, ACS_LTEE);
+    format_axis_value(&axis_label[0], v);
+    mvwprintw(y_win->win, height, 2, "%s", axis_label);
   }
-
   
-  wrefresh(y_axis_win->win);
+  wrefresh(y_win->win);
 }
 
 int centered_x(stag_win_t *win, char *s) {
