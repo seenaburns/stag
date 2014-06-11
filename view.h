@@ -37,7 +37,7 @@ void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
 
 void update_y_axis(graph_t *graph);
 void update_title(stag_win_t *title_win, char *title);
-void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float max);
+void draw_bar(graph_t *graph, float v, int age);
 void draw_graph_axis(stag_win_t *graph_win);
 
 #endif

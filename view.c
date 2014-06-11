@@ -110,18 +110,24 @@ void update_title(stag_win_t *title_win, char *title) {
   wrefresh(title_win->win);
 }
 
-void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float max) {
-  // Draw new bar at position x according to value and graph scale
+void draw_bar(graph_t *graph, float v, int age) {
+  // Draw bar for the value v on graph, oldest at far right
 
   // No widechars for now
   // wchar_t upper_half_block = L'\u2584';
   // wchar_t lower_half_block = L'\u2584';
   // wchar_t full_block = L'\u2589';
 
+  // Extract values
+  stag_win_t *graph_win = graph->graph_win;
+  float min = graph->scale_min;
+  float max = graph->scale_max;  
+  int x = graph_win->width-age*graph->bar_width;
+  
   // Fail conditions
   if(max-min == 0)
     return;
-  if(x+width < 0)
+  if(x+graph->bar_width < 0)
     return;
 
   float height =  ceil((v-min)/(max-min) * graph_win->height);
@@ -129,7 +135,7 @@ void draw_bar(stag_win_t *graph_win, int x, float v, int width, float min, float
   int j = 0;
   float i = 0;
   wattron(graph_win->win, A_REVERSE);
-  for(j = 0; j < width; j++) {
+  for(j = 0; j < graph->bar_width; j++) {
     for(i = 0; i < height; i++)
       mvwaddch(graph_win->win, graph_win->height-1-i, x+j, ' ');
   }

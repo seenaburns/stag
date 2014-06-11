@@ -172,13 +172,10 @@ int main(int argc, char **argv) {
       int i = 0;
       for(i = 0; i<values.size; i++) {
         int j = (values.i+i) % values.size;
-        int offset = values.size - i;
-        draw_bar(&graph_win,
-                 graph_win.width-offset*graph.bar_width,
+        int age = values.size - i;
+        draw_bar(&graph,
                  values.values[j],
-                 graph.bar_width,
-                 graph.scale_min,
-                 graph.scale_max);
+                 age);
       }
       wrefresh(graph_win.win);
 
