@@ -94,7 +94,7 @@ int centered_x(stag_win_t *win, char *s) {
   return x;
 }
 
-void draw_title(stag_win_t *title_win, char *title) {
+void update_title(stag_win_t *title_win, char *title) {
   // Draw title to window, centered and spaning multiple lines as needed
   int i = 0;
   int title_i = 0;

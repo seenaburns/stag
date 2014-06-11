@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
                 col-(margins.l+margins.r),
                 margins.t,
                 margins.l);
-  draw_title(&title_win, title);
+  update_title(&title_win, title);
 
   // Y axis
   stag_win_t y_axis_win;
