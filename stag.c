@@ -21,7 +21,7 @@
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
-#define YAXIS_SPLITS 2
+#define MAX_SPLITS 10
 
 int main(int argc, char **argv) {
   int status = 1;
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   graph.margins->b = DEFAULT_B_MARGIN;
   graph.margins->l = DEFAULT_L_MARGIN;
 
-  graph.y_splits = YAXIS_SPLITS;
+  graph.y_splits = 0;
   graph.bar_width = 1;
   graph.scale_mode = SCALE_DYNAMIC_MODE;
   graph.scale_min = 0;
@@ -55,10 +55,11 @@ int main(int argc, char **argv) {
     {"margin", required_argument, 0, 'm'}, // Window margins, t,r,b,l
     {"scale", required_argument, 0, 's'}, // max y value
     {"width", required_argument, 0, 'w'}, // bar width
+    {"split", required_argument, 0, 'y'}, // y axis splits
     {0,0,0,0}
   };
 
-  while((opt = getopt_long(argc, argv, "t:m:s:w:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, "t:m:s:w:y:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 't':
         // Title
@@ -94,6 +95,15 @@ int main(int argc, char **argv) {
         graph.bar_width = atoi(optarg);
         if(graph.bar_width < 1)
           graph.bar_width = 1;
+        break;
+
+      case 'y':
+        // Y axis split
+        graph.y_splits = atoi(optarg);
+        if(graph.y_splits < 0)
+          graph.y_splits = 0;
+        else if(graph.y_splits > MAX_SPLITS)
+          graph.y_splits = MAX_SPLITS;
         break;
 
       default:
