@@ -45,7 +45,10 @@ int main(int argc, char **argv) {
   graph.scale_min = 0;
   graph.scale_max = 0;
   
-  // Options for getopt_long
+
+  // Read options
+  char opt;
+  int option_index = 0;
   struct option long_options[] =
   {
     {"title", required_argument, 0, 't'}, // Graph title
@@ -55,12 +58,6 @@ int main(int argc, char **argv) {
     {0,0,0,0}
   };
 
-  char opt;
-  int option_index = 0;
-
-  // Set option defaults
-
-  
   while((opt = getopt_long(argc, argv, "t:m:s:w:", long_options, &option_index)) != -1) {
     switch (opt) {
       case 't':
@@ -122,8 +119,9 @@ int main(int argc, char **argv) {
                 col-(margins.l+margins.r),
                 margins.t,
                 margins.l);
-  update_title(&title_win, title);
-
+  draw_title(&title_win, title);
+  wrefresh(title_win.win);
+  
   // Y axis
   stag_win_t y_axis_win;
   init_stag_win(&y_axis_win,
@@ -132,7 +130,8 @@ int main(int argc, char **argv) {
                 margins.t+TITLE_HEIGHT,
                 col-margins.r-Y_AXIS_SIZE);
   graph.y_win = &y_axis_win;
-  update_y_axis(&graph);
+  draw_y_axis(&graph);
+  wrefresh(graph.y_win->win);
   
   // Graph content window
   stag_win_t graph_win;
@@ -143,7 +142,7 @@ int main(int argc, char **argv) {
                 margins.l);
   graph.graph_win = &graph_win;
   draw_graph_axis(&graph_win);
-  wrefresh(graph_win.win);
+  wrefresh(graph.graph_win->win);
 
   // Read floats to values, circle around after filling buffer 
   float v;
@@ -153,21 +152,22 @@ int main(int argc, char **argv) {
   while(status != EOF) {
     status = fscanf(stdin, "%f\n", &v);
     if(status == 1) {
+      // Update values and axis scale
       add_value(&values, v);
 
-      // Redraw graph
-      wclear(graph_win.win);
-      wrefresh(graph_win.win);
-
-      draw_graph_axis(&graph_win);
-
-      // Determine scale value
       if(graph.scale_mode == SCALE_DYNAMIC_MODE)
         graph.scale_max = values.max;
       else if(graph.scale_mode == SCALE_GLOBAL_MODE)
         graph.scale_max = values.global_max;
       else if(graph.scale_max <= 0 || graph.scale_max < graph.scale_min)
         graph.scale_max = graph.scale_min;
+
+
+      // Update graph
+      wclear(graph.graph_win->win);
+      wrefresh(graph.graph_win->win);
+
+      draw_graph_axis(&graph_win);
 
       int i = 0;
       for(i = 0; i<values.size; i++) {
@@ -177,9 +177,13 @@ int main(int argc, char **argv) {
                  values.values[j],
                  age);
       }
-      wrefresh(graph_win.win);
+      wrefresh(graph.graph_win->win);
 
-      update_y_axis(&graph);
+      // Redraw y_axis
+      wclear(graph.y_win->win);
+      wrefresh(graph.y_win->win);
+      draw_y_axis(&graph);
+      wrefresh(graph.y_win->win);
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }

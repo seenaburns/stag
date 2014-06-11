@@ -45,16 +45,13 @@ void format_axis_value(char *dest, float v) {
   sprintf(dest, "%-.0f%c", remainder, unitprefixes[i]);
 }
 
-void update_y_axis(graph_t *graph) {
+void draw_y_axis(graph_t *graph) {
   // Extract values from graph
   stag_win_t *y_win = graph->y_win;
   int splits = graph->y_splits;
   int min = graph->scale_min;
   int max = graph->scale_max;
 
-  wclear(y_win->win);
-  wrefresh(y_win->win);
-  
   // Draw axis line
   int i = 0;
   for(i = 0; i < y_win->height; i++)
@@ -81,8 +78,6 @@ void update_y_axis(graph_t *graph) {
     format_axis_value(&axis_label[0], v);
     mvwprintw(y_win->win, height, 2, "%s", axis_label);
   }
-  
-  wrefresh(y_win->win);
 }
 
 int centered_x(stag_win_t *win, char *s) {
@@ -94,7 +89,7 @@ int centered_x(stag_win_t *win, char *s) {
   return x;
 }
 
-void update_title(stag_win_t *title_win, char *title) {
+void draw_title(stag_win_t *title_win, char *title) {
   // Draw title to window, centered and spaning multiple lines as needed
   int i = 0;
   int title_i = 0;
@@ -107,7 +102,6 @@ void update_title(stag_win_t *title_win, char *title) {
     mvwaddnstr(title_win->win, i, startx, partial_title, title_win->width);
     title_i += title_win->width;
   }
-  wrefresh(title_win->win);
 }
 
 void draw_bar(graph_t *graph, float v, int age) {
