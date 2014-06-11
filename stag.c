@@ -21,7 +21,7 @@
 #define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
-#define MAX_SPLITS 10
+#define MAX_SPLITS 15
 
 int main(int argc, char **argv) {
   int status = 1;

@@ -69,14 +69,20 @@ void draw_y_axis(graph_t *graph) {
   mvwprintw(y_win->win, y_win->height-1, 2, "%s", axis_label);
 
   // Draw split labels
-  int v_step = floor((max-min)/(splits+1));
-  int height_step = floor(y_win->height/(splits+1));
+  // Only consider porition of y_win other than max/min labels (height - 2)
+  // 1. Value accuracy at display height (value from display pos not on i)
+  // 2. Evenly distribute labels
+  int height = y_win->height-2;
+  float v_step = (float)(max-min)/(height+1); // + 1 to not reach max at height
+  float h_step = (float)height/splits;
   for(i = 0; i < splits; i++) {
-    int v = (splits-i) * v_step + min;
-    int height = (i+1) * height_step;
-    mvwaddch(y_win->win, height, 0, ACS_LTEE);
+    int offset = (height - (int)floor((splits-1) * h_step))/2;
+    int h = (int)floor(i*h_step) + offset;
+    int v = floor((height - h) * v_step + min);
+    
+    mvwaddch(y_win->win, h+1, 0, ACS_LTEE);
     format_axis_value(&axis_label[0], v);
-    mvwprintw(y_win->win, height, 2, "%s", axis_label);
+    mvwprintw(y_win->win, h+1, 2, "%s", axis_label);
   }
 }
 
