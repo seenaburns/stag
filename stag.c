@@ -6,6 +6,7 @@
 #include <getopt.h> // argument parsing (getopt_long)
 #include <string.h> // strncpy
 #include <stdlib.h> // atoi, malloc, free
+#include <signal.h> // signals for resizing
 
 #include "view.h" // ncurses functionality
 #include "data.h" // values history
@@ -22,6 +23,16 @@
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15
+
+// sig_atomic_t resized = 0;
+void handle_winch(int sig) {
+  // Handle ncurses resizing signal
+  endwin();
+  refresh();
+  clear();
+  mvprintw(0,0, "Resized window %dx%d", LINES, COLS);
+  refresh();
+}
 
 int main(int argc, char **argv) {
   int status = 1;
@@ -121,6 +132,7 @@ int main(int argc, char **argv) {
   halfdelay(5);
   refresh();
 
+  signal(SIGWINCH, handle_winch);
 
   // Title
   stag_win_t title_win;
