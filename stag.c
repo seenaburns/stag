@@ -30,6 +30,7 @@ void handle_winch(int sig) {
   // Reinitialize ncurses with refresh to get new dimensions
   endwin();
   refresh();
+  mvprintw(0, 1, "Resized %dx%d", COLS, LINES);
   resized = 1;
 }
 
@@ -199,7 +200,7 @@ int main(int argc, char **argv) {
       // Redraw title
       draw_title(&title_win, title);
       wrefresh(title_win.win);
-      
+
       resized = 0;
     }
     
