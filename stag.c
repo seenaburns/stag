@@ -216,10 +216,9 @@ int main(int argc, char **argv) {
       else if(graph.scale_max <= 0 || graph.scale_max < graph.scale_min)
         graph.scale_max = graph.scale_min;
 
-
       // Update graph
       wclear(graph.graph_win->win);
-      wrefresh(graph.graph_win->win);
+      wnoutrefresh(graph.graph_win->win);
 
       draw_graph_axis(&graph_win);
 
@@ -231,13 +230,14 @@ int main(int argc, char **argv) {
                  values.values[j],
                  age);
       }
-      wrefresh(graph.graph_win->win);
+      wnoutrefresh(graph.graph_win->win);
 
       // Redraw y_axis
       wclear(graph.y_win->win);
-      wrefresh(graph.y_win->win);
       draw_y_axis(&graph);
-      wrefresh(graph.y_win->win);
+      wnoutrefresh(graph.y_win->win);
+
+      doupdate();
     } else {
       //fprintf(stdout, "Error reading data (%d)\n", status);
     }
