@@ -24,14 +24,13 @@
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15
 
-// sig_atomic_t resized = 0;
+sig_atomic_t resized = 0;
 void handle_winch(int sig) {
   // Handle ncurses resizing signal
+  // Reinitialize ncurses with refresh to get new dimensions
   endwin();
   refresh();
-  clear();
-  mvprintw(0,0, "Resized window %dx%d", LINES, COLS);
-  refresh();
+  resized = 1;
 }
 
 int main(int argc, char **argv) {
@@ -170,6 +169,40 @@ int main(int argc, char **argv) {
   init_values(&values, graph_win.width);
 
   while(status != EOF) {
+    if(resized) {
+      // If a resize signal occured, reset windows
+      delwin(title_win.win);
+      init_stag_win(&title_win,
+                    TITLE_HEIGHT,
+                    COLS-(margins.l+margins.r),
+                    margins.t,
+                    margins.l);
+
+      delwin(y_axis_win.win);
+      init_stag_win(&y_axis_win,
+                    LINES-(margins.t+margins.b)-TITLE_HEIGHT,
+                    Y_AXIS_SIZE,
+                    margins.t+TITLE_HEIGHT,
+                    COLS-margins.r-Y_AXIS_SIZE);
+      
+      delwin(graph_win.win);
+      init_stag_win(&graph_win,
+                    LINES-(margins.t+margins.b)-TITLE_HEIGHT,
+                    COLS-(margins.l+margins.r)-Y_AXIS_SIZE,
+                    margins.t+TITLE_HEIGHT,
+                    margins.l);
+
+      // Clear to handle areas that are now in margins
+      clear();
+      refresh();
+
+      // Redraw title
+      draw_title(&title_win, title);
+      wrefresh(title_win.win);
+      
+      resized = 0;
+    }
+    
     status = fscanf(stdin, "%f\n", &v);
     if(status == 1) {
       // Update values and axis scale

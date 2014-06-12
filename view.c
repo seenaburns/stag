@@ -16,7 +16,7 @@
   } */
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
-  // Initalize window struct
+  // Initialize window struct
   win->win = newwin(height, width, y, x);
   win->x = x;
   win->y = y;
