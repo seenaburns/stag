@@ -23,6 +23,7 @@
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15
+#define FG_COLOR COLOR_RED
 
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
@@ -132,6 +133,11 @@ int main(int argc, char **argv) {
 
   signal(SIGWINCH, handle_winch);
 
+  start_color();
+  use_default_colors();
+  init_pair(1, FG_COLOR, -1);
+
+  
   // Title
   stag_win_t title_win;
   init_stag_win(&title_win,
@@ -139,6 +145,7 @@ int main(int argc, char **argv) {
                 COLS-(margins.l+margins.r),
                 margins.t,
                 margins.l);
+  wattron(title_win.win, COLOR_PAIR(1));
   draw_title(&title_win, title);
   wrefresh(title_win.win);
   
@@ -150,6 +157,7 @@ int main(int argc, char **argv) {
                 margins.t+TITLE_HEIGHT,
                 COLS-margins.r-Y_AXIS_SIZE);
   graph.y_win = &y_axis_win;
+  wattron(y_axis_win.win, COLOR_PAIR(1));
   draw_y_axis(&graph);
   wrefresh(graph.y_win->win);
   
@@ -161,8 +169,10 @@ int main(int argc, char **argv) {
                 margins.t+TITLE_HEIGHT,
                 margins.l);
   graph.graph_win = &graph_win;
+  wattron(graph_win.win, COLOR_PAIR(1));
   draw_graph_axis(&graph_win);
   wrefresh(graph.graph_win->win);
+
 
   // Read floats to values, circle around after filling buffer 
   float v;
@@ -170,6 +180,7 @@ int main(int argc, char **argv) {
   init_values(&values, graph_win.width);
 
   while(status != EOF) {
+
     if(resized) {
       // If a resize signal occured, reset windows
       delwin(title_win.win);
