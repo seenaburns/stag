@@ -123,12 +123,10 @@ int main(int argc, char **argv) {
   }
   
   // Initialize ncurses
-  int row, col;
   // setlocale(LC_ALL, "");
   initscr();
   noecho();
   curs_set(0);
-  getmaxyx(stdscr,row,col);
   halfdelay(5);
   refresh();
 
@@ -138,7 +136,7 @@ int main(int argc, char **argv) {
   stag_win_t title_win;
   init_stag_win(&title_win,
                 TITLE_HEIGHT,
-                col-(margins.l+margins.r),
+                COLS-(margins.l+margins.r),
                 margins.t,
                 margins.l);
   draw_title(&title_win, title);
@@ -147,10 +145,10 @@ int main(int argc, char **argv) {
   // Y axis
   stag_win_t y_axis_win;
   init_stag_win(&y_axis_win,
-                row-(margins.t+margins.b)-TITLE_HEIGHT,
+                LINES-(margins.t+margins.b)-TITLE_HEIGHT,
                 Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
-                col-margins.r-Y_AXIS_SIZE);
+                COLS-margins.r-Y_AXIS_SIZE);
   graph.y_win = &y_axis_win;
   draw_y_axis(&graph);
   wrefresh(graph.y_win->win);
@@ -158,8 +156,8 @@ int main(int argc, char **argv) {
   // Graph content window
   stag_win_t graph_win;
   init_stag_win(&graph_win,
-                row-(margins.t+margins.b)-TITLE_HEIGHT,
-                col-(margins.l+margins.r)-Y_AXIS_SIZE,
+                LINES-(margins.t+margins.b)-TITLE_HEIGHT,
+                COLS-(margins.l+margins.r)-Y_AXIS_SIZE,
                 margins.t+TITLE_HEIGHT,
                 margins.l);
   graph.graph_win = &graph_win;
