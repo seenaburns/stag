@@ -193,7 +193,7 @@ int main(int argc, char **argv) {
                     margins.t+TITLE_HEIGHT,
                     margins.l);
 
-      // Clear to handle areas that are now in margins
+      // Erase to handle areas that are now in margins
       clear();
       refresh();
 
@@ -217,7 +217,7 @@ int main(int argc, char **argv) {
         graph.scale_max = graph.scale_min;
 
       // Update graph
-      wclear(graph.graph_win->win);
+      werase(graph.graph_win->win);
       wnoutrefresh(graph.graph_win->win);
 
       draw_graph_axis(&graph_win);
@@ -233,7 +233,7 @@ int main(int argc, char **argv) {
       wnoutrefresh(graph.graph_win->win);
 
       // Redraw y_axis
-      wclear(graph.y_win->win);
+      werase(graph.y_win->win);
       draw_y_axis(&graph);
       wnoutrefresh(graph.y_win->win);
 
