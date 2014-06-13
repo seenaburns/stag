@@ -26,6 +26,10 @@ void init_values(values_t *values, size_t history_size) {
 }
 
 void resize_values(values_t *values, size_t history_size) {
+  // Do not resize down, save history in case of resize up later
+  if(history_size < (size_t) values->size)
+    return;
+
   float *old_values = values->values;
   int old_size = values->size;
   int old_i = values->i;
