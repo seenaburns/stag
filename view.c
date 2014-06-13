@@ -168,7 +168,7 @@ void draw_bar(graph_t *graph, float v, int age) {
   if(x+graph->bar_width < 0)
     return;
 
-  float height =  ceil((v-min)/(max-min) * graph_win->height);
+  float height =  round((v-min)/(max-min) * graph_win->height);
 
   int j = 0;
   float i = 0;
