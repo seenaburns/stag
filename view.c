@@ -137,8 +137,9 @@ void draw_title(stag_win_t *title_win, char *title) {
   int i = 0;
   int title_i = 0;
   int title_len = strlen(title);
+  int title_lines = 1; // title_win->height;
 
-  for(i = 0; i<title_win->height && title_i < title_len; i++) {
+  for(i = 0; i<title_lines && title_i < title_len; i++) {
     char partial_title[title_win->width];
     strncpy(partial_title, title+title_i, title_win->width);
     int startx = centered_x(title_win, partial_title);
