@@ -11,11 +11,6 @@
 #include "view.h" // ncurses functionality
 #include "data.h" // values history
 
-// Settings
-#define DEFAULT_T_MARGIN 1
-#define DEFAULT_L_MARGIN 1
-#define DEFAULT_R_MARGIN 1
-#define DEFAULT_B_MARGIN 1
 
 // Internal settings
 #define Y_AXIS_SIZE 6
@@ -23,6 +18,13 @@
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15
+
+// Default Settings
+#define DEFAULT_T_MARGIN 1
+#define DEFAULT_R_MARGIN 1
+#define DEFAULT_L_MARGIN Y_AXIS_SIZE+DEFAULT_R_MARGIN-2
+#define DEFAULT_B_MARGIN 1
+
 
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
