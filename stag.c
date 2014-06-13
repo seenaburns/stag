@@ -137,38 +137,36 @@ int main(int argc, char **argv) {
   use_default_colors();
   init_pair(1, FG_COLOR, -1);
 
+  graph.cols = COLS;
+  graph.lines = LINES;
   
-  // Title
+  // Initialize windows
   stag_win_t title_win;
-  init_stag_win(&title_win,
-                TITLE_HEIGHT,
-                COLS-(margins.l+margins.r),
-                margins.t,
-                margins.l);
+  title_win.win = NULL;
+  graph.title_win = &title_win;
+
+  stag_win_t y_axis_win;
+  y_axis_win.win = NULL;
+  graph.y_win = &y_axis_win;
+
+  stag_win_t graph_win;
+  graph_win.win = NULL;
+  graph.graph_win = &graph_win;
+
+  initialize_windows(&graph);
+
+
+  // Draw title
   wattron(title_win.win, COLOR_PAIR(1));
   draw_title(&title_win, title);
   wrefresh(title_win.win);
   
-  // Y axis
-  stag_win_t y_axis_win;
-  init_stag_win(&y_axis_win,
-                LINES-(margins.t+margins.b)-TITLE_HEIGHT,
-                Y_AXIS_SIZE,
-                margins.t+TITLE_HEIGHT,
-                COLS-margins.r-Y_AXIS_SIZE);
-  graph.y_win = &y_axis_win;
+  // Draw y a_xis
   wattron(y_axis_win.win, COLOR_PAIR(1));
   draw_y_axis(&graph);
   wrefresh(graph.y_win->win);
   
-  // Graph content window
-  stag_win_t graph_win;
-  init_stag_win(&graph_win,
-                LINES-(margins.t+margins.b)-TITLE_HEIGHT,
-                COLS-(margins.l+margins.r)-Y_AXIS_SIZE,
-                margins.t+TITLE_HEIGHT,
-                margins.l);
-  graph.graph_win = &graph_win;
+  // Draw graph x axis
   wattron(graph_win.win, COLOR_PAIR(1));
   draw_graph_axis(&graph_win);
   wrefresh(graph.graph_win->win);
@@ -183,26 +181,9 @@ int main(int argc, char **argv) {
 
     if(resized) {
       // If a resize signal occured, reset windows
-      delwin(title_win.win);
-      init_stag_win(&title_win,
-                    TITLE_HEIGHT,
-                    COLS-(margins.l+margins.r),
-                    margins.t,
-                    margins.l);
-
-      delwin(y_axis_win.win);
-      init_stag_win(&y_axis_win,
-                    LINES-(margins.t+margins.b)-TITLE_HEIGHT,
-                    Y_AXIS_SIZE,
-                    margins.t+TITLE_HEIGHT,
-                    COLS-margins.r-Y_AXIS_SIZE);
-      
-      delwin(graph_win.win);
-      init_stag_win(&graph_win,
-                    LINES-(margins.t+margins.b)-TITLE_HEIGHT,
-                    COLS-(margins.l+margins.r)-Y_AXIS_SIZE,
-                    margins.t+TITLE_HEIGHT,
-                    margins.l);
+      graph.cols = COLS;
+      graph.lines = LINES;
+      initialize_windows(&graph);
 
       // Erase to handle areas that are now in margins
       clear();

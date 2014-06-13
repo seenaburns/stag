@@ -6,6 +6,10 @@
 // #include <ncursesw/ncurses.h> // Include wide char version of ncurses
 #include <ncurses.h> // Use standard ncurses until wchar actually used
 
+// SETTINGS
+#define Y_AXIS_SIZE 6
+#define TITLE_HEIGHT 2
+
 // CONSTANTS
 #define SCALE_FIXED_MODE 0
 #define SCALE_DYNAMIC_MODE 1
@@ -24,6 +28,9 @@ typedef struct margins {
 typedef struct graph {
   stag_win_t *graph_win; // graph window
   stag_win_t *y_win; // y axis window
+  stag_win_t *title_win; // title window
+  int cols;
+  int lines;
   char *title;
   margins_t *margins;
   int bar_width;
@@ -33,7 +40,11 @@ typedef struct graph {
   float scale_max;
 } graph_t;
 
+void initialize_windows(graph_t *graph);
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
+void init_title_win(graph_t *graph);
+void init_yaxis_win(graph_t *graph);
+void init_graph_win(graph_t *graph);
 
 void draw_y_axis(graph_t *graph);
 void draw_title(stag_win_t *title_win, char *title);

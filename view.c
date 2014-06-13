@@ -16,12 +16,49 @@
   } */
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
+  // Delete if not null
+  if(win->win != NULL)
+    delwin(win->win);
   // Initialize window struct
   win->win = newwin(height, width, y, x);
   win->x = x;
   win->y = y;
   win->width = width;
   win->height = height;
+}
+
+
+void init_title_win(graph_t *graph) {
+  margins_t margins = *(graph->margins);
+  init_stag_win(graph->title_win,
+                TITLE_HEIGHT,
+                graph->cols - (margins.l+margins.r),
+                margins.t,
+                margins.l);
+}
+
+void init_yaxis_win(graph_t *graph) {
+  margins_t margins = *(graph->margins);
+  init_stag_win(graph->y_win,
+                graph->lines - (margins.t+margins.b) - TITLE_HEIGHT,
+                Y_AXIS_SIZE,
+                margins.t + TITLE_HEIGHT,
+                graph->cols - margins.r - Y_AXIS_SIZE);
+}
+
+void init_graph_win(graph_t *graph) {
+  margins_t margins = *(graph->margins);
+  init_stag_win(graph->graph_win,
+                graph->lines - (margins.t+margins.b) - TITLE_HEIGHT,
+                graph->cols - (margins.l+margins.r) - Y_AXIS_SIZE,
+                margins.t + TITLE_HEIGHT,
+                margins.l);
+}
+
+void initialize_windows(graph_t *graph) {
+  init_title_win(graph);
+  init_yaxis_win(graph);
+  init_graph_win(graph);
 }
 
 void format_axis_value(char *dest, float v) {
