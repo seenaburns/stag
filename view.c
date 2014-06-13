@@ -89,6 +89,8 @@ void draw_y_axis(graph_t *graph) {
   int min = graph->scale_min;
   int max = graph->scale_max;
 
+  wattron(y_win->win, COLOR_PAIR(2));
+
   // Draw axis line
   int i = 0;
   for(i = 0; i < y_win->height; i++)
@@ -121,6 +123,8 @@ void draw_y_axis(graph_t *graph) {
     format_axis_value(&axis_label[0], v);
     mvwprintw(y_win->win, h+1, 2, "%s", axis_label);
   }
+
+  wattroff(y_win->win, COLOR_PAIR(2));
 }
 
 int centered_x(stag_win_t *win, char *s) {
@@ -138,6 +142,7 @@ void draw_title(stag_win_t *title_win, char *title) {
   int title_i = 0;
   int title_len = strlen(title);
 
+  wattron(title_win->win, COLOR_PAIR(2));
   for(i = 0; i<title_win->height && title_i < title_len; i++) {
     char partial_title[title_win->width];
     strncpy(partial_title, title+title_i, title_win->width);
@@ -145,6 +150,7 @@ void draw_title(stag_win_t *title_win, char *title) {
     mvwaddnstr(title_win->win, i, startx, partial_title, title_win->width);
     title_i += title_win->width;
   }
+  wattroff(title_win->win, COLOR_PAIR(2));
 }
 
 void draw_bar(graph_t *graph, float v, int age) {

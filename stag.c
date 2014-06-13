@@ -23,7 +23,8 @@
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15
-#define FG_COLOR COLOR_RED
+#define FG_COLOR COLOR_BLUE
+#define BG_COLOR COLOR_MAGENTA
 
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
@@ -136,6 +137,7 @@ int main(int argc, char **argv) {
   start_color();
   use_default_colors();
   init_pair(1, FG_COLOR, -1);
+  init_pair(2, FG_COLOR, BG_COLOR);
 
   graph.cols = COLS;
   graph.lines = LINES;
@@ -155,6 +157,9 @@ int main(int argc, char **argv) {
 
   initialize_windows(&graph);
 
+  wbkgd(title_win.win, COLOR_PAIR(2));
+  wbkgd(y_axis_win.win, COLOR_PAIR(2));
+  wbkgd(graph_win.win, COLOR_PAIR(2));
 
   // Draw title
   wattron(title_win.win, COLOR_PAIR(1));
