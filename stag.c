@@ -166,6 +166,7 @@ int main(int argc, char **argv) {
 
 
   // Read floats to values, circle around after filling buffer 
+  // Initialize values
   float v;
   values_t values;
   init_values(&values, graph_win.width);
@@ -185,6 +186,9 @@ int main(int argc, char **argv) {
       // Redraw title
       draw_title(&title_win, title);
       wrefresh(title_win.win);
+
+      // Resize values
+      resize_values(&values, graph.graph_win->width);
 
       resized = 0;
     }

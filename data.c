@@ -25,6 +25,22 @@ void init_values(values_t *values, size_t history_size) {
   values->i = 0;
 }
 
+void resize_values(values_t *values, size_t history_size) {
+  float *old_values = values->values;
+  int old_size = values->size;
+  int old_i = values->i;
+
+  // Initialize new values with new history size
+  init_values(values, history_size);
+
+  // Add values from old in order as before
+  int i = 0;
+  for(i = 0; i < old_size; i++)
+    add_value(values, old_values[((i+old_i) % old_size)]);
+
+  free(old_values);
+}
+
 void add_value(values_t *values, float v) {
   // Add new value to values_t
   values->values[values->i] = v;
