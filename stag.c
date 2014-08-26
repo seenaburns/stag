@@ -170,7 +170,8 @@ int main(int argc, char **argv) {
   values_t values;
   init_values(&values, graph_win.width);
 
-  while(status != EOF) {
+  // Don't exit loop even on error, just display
+  while(1) {
 
     if(resized) {
       // If a resize signal occured, reset windows
@@ -226,8 +227,11 @@ int main(int argc, char **argv) {
       wnoutrefresh(graph.y_win->win);
 
       doupdate();
-    } else {
-      //fprintf(stdout, "Error reading data (%d)\n", status);
+    } else if (!feof(stdin)) {
+      // fscanf can return EOF on read / encoding error or EOF
+      // only print error if not from stdin having an EOF
+      mvprintw(0, 0, "Error reading data (%d)\n", status);
+      refresh();
     }
   }
 
