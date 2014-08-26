@@ -14,7 +14,6 @@
 
 // Internal settings
 #define Y_AXIS_SIZE 6
-#define TITLE_HEIGHT 2
 #define MAX_TITLE_LENGTH 256
 #define MAX_MARGINS_LENGTH 30
 #define MAX_SPLITS 15

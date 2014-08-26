@@ -21,7 +21,7 @@ void init_title_win(graph_t *graph) {
   margins_t margins = *(graph->margins);
   init_stag_win(graph->title_win,
                 TITLE_HEIGHT,
-                graph->cols - (margins.l+margins.r),
+                graph->cols - (margins.l+margins.r) - Y_AXIS_SIZE,
                 margins.t,
                 margins.l);
 }
@@ -122,19 +122,19 @@ int centered_x(stag_win_t *win, char *s) {
 }
 
 void draw_title(stag_win_t *title_win, char *title) {
-  // Draw title to window, centered and spaning multiple lines as needed
-  int i = 0;
-  int title_i = 0;
-  int title_len = strlen(title);
-  int title_lines = 1; // title_win->height;
+  // Draw title to window, centered
+  char partial_title[title_win->width];
+  strncpy(partial_title, title, title_win->width);
 
-  for(i = 0; i<title_lines && title_i < title_len; i++) {
-    char partial_title[title_win->width];
-    strncpy(partial_title, title+title_i, title_win->width);
-    int startx = centered_x(title_win, partial_title);
-    mvwaddnstr(title_win->win, i, startx, partial_title, title_win->width);
-    title_i += title_win->width;
+  // If title too long for window, add ...
+  if ((unsigned long) title_win->width < strlen(title)) {
+    partial_title[title_win->width-1] = '.';
+    partial_title[title_win->width-2] = '.';
+    partial_title[title_win->width-3] = '.';
   }
+
+  int startx = centered_x(title_win, partial_title);
+  mvwaddnstr(title_win->win, 0, startx, partial_title, title_win->width);
 }
 
 void draw_bar(graph_t *graph, float v, int age) {
