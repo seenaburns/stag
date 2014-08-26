@@ -1,0 +1,49 @@
+'\" t
+.\"     Title: stag
+.\"    Author: Seena Burns
+.\"      Date: 08/26/2014
+.\"    Manual: Stag Manual
+.\"    Source: Stag 1.0
+.\"  Language: English
+.\"
+.TH "STAG" "1" "August 26, 2014" "Stag 1\&.0" "Stag Manual"
+.SH NAME
+stag \- streaming graphs with ncurses
+.SH SYNOPSIS
+.B stag
+[\fB\-t\fR \fITITLE\fR]
+[\fB\-m\fR \fIMARGIN\fR]
+[\fB\-s\fR \fISCALE_MODE\fR]
+[\fB\-w\fR \fIBAR_WIDTH\fR]
+[\fB\-y\fR \fIY_SPLITS\fR]
+.SH DESCRIPTION
+.B stag
+generates a streaming bar graph of the data (line separated floats) passed through stdin.
+.SH OPTIONS
+.TP
+.BR \-t ", " \-\-title=\fITITLE\fR
+Set the title displayed above the graph.
+.TP
+.BR \-m ", " \-\-margin=\fIT,R,B,L\fR
+Set the margin around the edge of the graph, defined as a comma delimited list of 4 integers: top,right,bottom,left.
+.TP
+.BR \-s ", " \-\-scale=\fISCALE_MODE\fR
+Choose how to scale the y-axis of the graph.
+.RS
+.B dynamic: 
+update the max using the values currently on the graph
+.B global:
+update the max to be the global maximum of all data seen
+.B min,max:
+specify the max and min using two integers
+.RE
+.TP
+.BR \-w ", " \-\-width=\fIBAR_WIDTH\fR
+Set the width of the bars.
+.TP
+.BR \-y ", " \-\-split=\fIY_SPLITS\fR
+Set the number of intermediate y-axis ticks between the min and max.
+.SH AUTHOR
+Seena Burns (hello@seenaburns.com)
+
+View on https://github.com/seenaburns/stag
