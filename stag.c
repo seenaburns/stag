@@ -1,7 +1,3 @@
-// Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
-// #define _XOPEN_SOURCE_EXTENDED 1
-
-// #include <locale.h> // setlocale to enable ncurses wide char
 #include <stdio.h> // file I/O, fprintf, sprintf
 #include <getopt.h> // argument parsing (getopt_long)
 #include <string.h> // strncpy
