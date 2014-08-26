@@ -1,19 +1,8 @@
 #include <string.h> // strlen
 #include <stdio.h> // sprintf
-// #include <wchar.h> // wchar, utf-8
 #include <math.h> // ceil
 
 #include "view.h"
-
-// Implement when wide chars are actually used
-/* void mvwadd_wchar(WINDOW *win, int y, int x, const int c) {
-  // wchar mvwaddch, must convert to cchar_t for ncursesw
-  cchar_t cc = {
-    0,    // attribute
-    {c,0} // cchar
-  };
-  mvwadd_wch(win, y, x, &cc);
-  } */
 
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x) {
   // Delete if not null
@@ -150,11 +139,6 @@ void draw_title(stag_win_t *title_win, char *title) {
 
 void draw_bar(graph_t *graph, float v, int age) {
   // Draw bar for the value v on graph, oldest at far right
-
-  // No widechars for now
-  // wchar_t upper_half_block = L'\u2584';
-  // wchar_t lower_half_block = L'\u2584';
-  // wchar_t full_block = L'\u2589';
 
   // Extract values
   stag_win_t *graph_win = graph->graph_win;

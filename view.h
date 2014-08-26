@@ -1,10 +1,7 @@
 #ifndef STAG_VIEW_H
 #define STAG_VIEW_H
 
-// Define _XOPEN_SOURCE_EXTENDED for wide char functions in ncurses
-// #define _XOPEN_SOURCE_EXTENDED 1
-// #include <ncursesw/ncurses.h> // Include wide char version of ncurses
-#include <ncurses.h> // Use standard ncurses until wchar actually used
+#include <ncurses.h>
 
 // SETTINGS
 #define Y_AXIS_SIZE 6
