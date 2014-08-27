@@ -5,7 +5,7 @@
 
 // SETTINGS
 #define Y_AXIS_SIZE 6
-#define TITLE_HEIGHT 1
+#define TITLE_HEIGHT 2
 
 // CONSTANTS
 #define SCALE_FIXED_MODE 0
