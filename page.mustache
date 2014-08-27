@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>{{ project_title }} by {{ owner_name }}</title>
+    <link rel="stylesheet" href="{{asset_path_prefix}}stylesheets/styles.css">
+    <link rel="stylesheet" href="{{asset_path_prefix}}stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="{{asset_path_prefix}}javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="{{asset_path_prefix}}stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="{{ repository_url }}">Fork On GitHub</a></li>
+          <li class="downloads"><a href="{{ zip_url }}">ZIP</a></li>
+          <li class="downloads"><a href="{{ tar_url }}">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>{{ project_title }}</h1>
+          <p>{{ project_tagline }}</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="{{ owner_url }}">{{ owner_name }}</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        {{{ main_content }}}
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
