@@ -6,12 +6,13 @@ PREFIX ?= /usr/local/
 
 all: stag
 stag:
-	$(CC) $(CFLAGS) $(LIBS) stag.c view.c data.c -o stag
+	$(CC) $(CFLAGS) stag.c view.c data.c -o stag $(LIBS) 
 install:
-	cp stag "$(PREFIX)/bin"
-	cp doc/stag.1 "$(PREFIX)/share/man/man1"
+	cp stag "$(PREFIX)bin"
+	mkdir -p "$(PREFIX)share/man/man1/"
+	cp doc/stag.1 "$(PREFIX)share/man/man1/"
 uninstall:
-	rm "$(PREFIX)/bin/stag"
-	rm "$(PREFIX)/share/man/man1/stag.1"
+	rm "$(PREFIX)bin/stag"
+	rm "$(PREFIX)share/man/man1/stag.1"
 clean:
 	rm -rf *.o stag
