@@ -76,10 +76,15 @@ int main(int argc, char **argv) {
 
       case 'm':
         // Margin
-        graph.margins->t = atoi(strsep(&optarg, ","));
-        graph.margins->r = atoi(strsep(&optarg, ","));
-        graph.margins->b = atoi(strsep(&optarg, ","));
-        graph.margins->l = atoi(strsep(&optarg, ","));
+        if(sscanf(optarg,
+                  "%d,%d,%d,%d",
+                  &graph.margins->t,
+                  &graph.margins->r,
+                  &graph.margins->b,
+                  &graph.margins->l) != 4) {
+          printf("%s not recognized as input to --margin. See --help\n", optarg);
+          exit(1);
+        }
         break;
 
       case 's':
