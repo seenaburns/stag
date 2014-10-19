@@ -22,7 +22,8 @@
 
 // Default usage info
 const char stag_usage_string[] =
-"Usage: stag  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE\\_MODE]  [-w  BAR\\_WIDTH]  [-y Y\\_SPLITS]\n"
+"\n"
+"Usage: stag  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE_MODE]  [-w  BAR_WIDTH]  [-y Y_SPLITS]\n"
 "\n"
 "Options:\n"
 "       -t, --title=TITLE\n"
