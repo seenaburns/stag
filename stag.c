@@ -20,7 +20,7 @@
 #define DEFAULT_L_MARGIN Y_AXIS_SIZE+DEFAULT_R_MARGIN-2
 #define DEFAULT_B_MARGIN 1
 
-// Default usage info
+// Default usage value
 const char stag_usage_string[] =
 "\n"
 "Usage: stag  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE_MODE]  [-w  BAR_WIDTH]  [-y Y_SPLITS]\n"
@@ -45,6 +45,14 @@ const char stag_usage_string[] =
 "       -y, --split=Y_SPLITS\n"
 "              Set the number of intermediate y-axis ticks between the min and max.\n"
 "\n";
+
+// Display usage info
+void usage(){
+
+  printf(stag_usage_string);
+  exit(0);
+
+}
 
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
@@ -268,11 +276,4 @@ int main(int argc, char **argv) {
   endwin();
 
   dealloc_values(&values);
-}
-
-void usage(){
-
-  printf(stag_usage_string);
-  exit(0);
-
 }
