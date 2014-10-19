@@ -37,6 +37,8 @@ typedef struct graph {
   float scale_max;
 } graph_t;
 
+void usage();
+
 void initialize_windows(graph_t *graph);
 void init_stag_win(stag_win_t *win, int height, int width, int y, int x);
 void init_title_win(graph_t *graph);
