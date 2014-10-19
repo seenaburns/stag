@@ -20,6 +20,31 @@
 #define DEFAULT_L_MARGIN Y_AXIS_SIZE+DEFAULT_R_MARGIN-2
 #define DEFAULT_B_MARGIN 1
 
+// Default usage info
+const char stag_usage_string[] =
+"\n"
+"Usage: stag  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE_MODE]  [-w  BAR_WIDTH]  [-y Y_SPLITS]\n"
+"\n"
+"Options:\n"
+"       -t, --title=TITLE\n"
+"              Set the title displayed above the graph.\n"
+"\n"
+"       -m, --margin=T,R,B,L\n"
+"              Set the margin around the edge of the graph, defined as a comma \n"
+"              delimited list of 4 integers: top,right,bottom,left.\n"
+"\n"
+"       -s, --scale=SCALE_MODE\n"
+"              Choose how to scale the y-axis of the graph.\n"
+"              dynamic: update the max using the values currently on the graph\n"
+"              global: update the max to be the global maximum of all data seen\n"
+"              min,max: specify the max and min using two integers\n"
+"\n"
+"       -w, --width=BAR_WIDTH\n"
+"              Set the width of the bars.\n"
+"\n"
+"       -y, --split=Y_SPLITS\n"
+"              Set the number of intermediate y-axis ticks between the min and max.\n"
+"\n";
 
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
@@ -32,6 +57,10 @@ void handle_winch(int sig) {
 }
 
 int main(int argc, char **argv) {
+
+  if (strcmp(argv[1], "--help") == 0 ||
+    strcmp(argv[1], "-h") == 0) usage();
+
   int status = 1;
 
   // Initialize graph properties with defaults
@@ -239,4 +268,11 @@ int main(int argc, char **argv) {
   endwin();
 
   dealloc_values(&values);
+}
+
+void usage(){
+
+  printf(stag_usage_string);
+  exit(0);
+
 }
