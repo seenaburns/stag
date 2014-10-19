@@ -22,4 +22,4 @@ uninstall:
 	rm "$(DESTDIR)$(PREFIX)/share/man/man1/stag.1"
 
 clean:
-	rm -rf *.o stag
+	rm -f *.o stag
