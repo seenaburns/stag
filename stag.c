@@ -269,5 +269,6 @@ int main(int argc, char **argv) {
 }
 
 void usage(){
-  fprintf(stag_usage_string);
+  printf(stag_usage_string);
+  exit 0;
 }
