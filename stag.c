@@ -48,10 +48,8 @@ const char stag_usage_string[] =
 
 // Display usage info
 void usage(){
-
   printf(stag_usage_string);
   exit(0);
-
 }
 
 sig_atomic_t resized = 0;
@@ -65,9 +63,10 @@ void handle_winch(int sig) {
 }
 
 int main(int argc, char **argv) {
-
-  if (strcmp(argv[1], "--help") == 0 ||
-    strcmp(argv[1], "-h") == 0) usage();
+  if (argc > 1 &&
+      (strcmp(argv[1], "--help") == 0 ||
+       strcmp(argv[1], "-h") == 0))
+      usage();
 
   int status = 1;
 
