@@ -55,10 +55,6 @@ void usage(){
 sig_atomic_t resized = 0;
 void handle_winch(int sig) {
   // Handle ncurses resizing signal
-  // Reinitialize ncurses with refresh to get new dimensions
-  endwin();
-  refresh();
-  mvprintw(0, 1, "Resized %dx%d", COLS, LINES);
   resized = 1;
 }
 
@@ -211,6 +207,11 @@ int main(int argc, char **argv) {
   while(1) {
 
     if(resized) {
+      // Reinitialize ncurses with refresh to get new dimensions
+      endwin();
+      refresh(); 
+      // mvprintw(0, 1, "Resized %dx%d", COLS, LINES);
+      
       // If a resize signal occured, reset windows
       graph.cols = COLS;
       graph.lines = LINES;
