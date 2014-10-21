@@ -72,6 +72,9 @@ void format_axis_value(char *dest, float v) {
 }
 
 void draw_y_axis(graph_t *graph) {
+  if (graph->y_win->width <= 0)
+      return;
+
   // Extract values from graph
   stag_win_t *y_win = graph->y_win;
   int splits = graph->y_splits;
@@ -122,6 +125,9 @@ int centered_x(stag_win_t *win, char *s) {
 }
 
 void draw_title(stag_win_t *title_win, char *title) {
+  if (title_win->width <= 0)
+      return;
+
   // Draw title to window, centered
   char partial_title[title_win->width];
   strncpy(partial_title, title, title_win->width);
@@ -139,6 +145,8 @@ void draw_title(stag_win_t *title_win, char *title) {
 
 void draw_bar(graph_t *graph, float v, int age) {
   // Draw bar for the value v on graph, oldest at far right
+  if (graph->graph_win->width <= 0)
+      return;
 
   // Extract values
   stag_win_t *graph_win = graph->graph_win;
@@ -165,6 +173,9 @@ void draw_bar(graph_t *graph, float v, int age) {
 }
 
 void draw_graph_axis(stag_win_t *graph_win) {
+  if (graph_win->width <= 0)
+      return;
+
   // Draw underline for the x axis
   int i = 0;
   wattron(graph_win->win, A_UNDERLINE);
