@@ -16,7 +16,7 @@ float find_max(values_t *values) {
 }
 
 
-void init_values(values_t *values, size_t history_size) {
+void init_values(values_t *values, int history_size) {
   values->values = malloc(history_size*sizeof(float));
   memset(values->values, 0, history_size*sizeof(float));
   values->max = 0;
@@ -25,9 +25,10 @@ void init_values(values_t *values, size_t history_size) {
   values->i = 0;
 }
 
-void resize_values(values_t *values, size_t history_size) {
+void resize_values(values_t *values, int history_size) {
   // Do not resize down, save history in case of resize up later
-  if(history_size < (size_t) values->size)
+  // Exit if history_size is less than 0
+  if(history_size < 0 || history_size < values->size)
     return;
 
   float *old_values = values->values;
