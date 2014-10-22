@@ -1,12 +1,12 @@
 STAG
 ===
 
-![Stag Progress](http://i.imgur.com/s2BlCIa.png)
+![Stag Progress](http://i.imgur.com/YqgsMV3.png)
 
 DESCRIPTION
 ---
 
-stag generates a streaming  bar  graph  of  the data  (line  separated floats) passed through stdin.
+Stag generates a streaming bar graph inside the terminal from the data (newline separated floats) passed through stdin.
 
 SYNOPSIS
 ---
