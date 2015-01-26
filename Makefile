@@ -1,5 +1,5 @@
 CC ?= gcc
-CFLAGS=-Wall -Werror -Wextra -std=c99 -pedantic -Wno-unused-parameter
+CFLAGS=-Wall -Werror -Wextra -std=gnu99 -pedantic -Wno-unused-parameter
 # D_BSD_SOURCE for strsep
 LIBS=-lncurses -lm -D_DEFAULT_SOURCE
 PREFIX ?= /usr/local
