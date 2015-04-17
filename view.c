@@ -160,16 +160,31 @@ void draw_bar(graph_t *graph, float v, int age) {
   if(x+graph->bar_width < 0)
     return;
 
-  int height = lrint((v-min)/(max-min) * graph_win->height);
+  int height = lrint(8*(v-min)/(max-min) * graph_win->height);
 
   int j = 0;
   int i = 0;
-  wattron(graph_win->win, A_REVERSE);
-  for(j = 0; j < graph->bar_width; j++) {
-    for(i = 0; i < height; i++)
-      mvwaddch(graph_win->win, graph_win->height-1-i, x+j, ' ');
+  if (graph->unicode) {
+    for(j = 0; j < graph->bar_width; j++) {
+      wchar_t wc[] = {0x2588, 0};
+      cchar_t cc;
+      setcchar(&cc, wc, 0, 0, NULL);
+      for(i = 0; height - i > 8; i += 8)
+        mvwadd_wch(graph_win->win, graph_win->height-1-i/8, x+j, &cc);
+      if (height - i > 0) {
+        wc[0] = 0x2580 + (height - i);
+        setcchar(&cc, wc, 0, 0, NULL);
+        mvwadd_wch(graph_win->win, graph_win->height-1-i/8, x+j, &cc);
+      }
+    }
+  } else {
+    wattron(graph_win->win, A_REVERSE);
+    for(j = 0; j < graph->bar_width; j++) {
+      for(i = 0; i < height; i+=8)
+        mvwaddch(graph_win->win, graph_win->height-1-i/8, x+j, ' ');
+    }
+    wattroff(graph_win->win, A_REVERSE);
   }
-  wattroff(graph_win->win,A_REVERSE);
 }
 
 void draw_graph_axis(stag_win_t *graph_win) {
