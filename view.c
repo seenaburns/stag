@@ -160,10 +160,10 @@ void draw_bar(graph_t *graph, float v, int age) {
   if(x+graph->bar_width < 0)
     return;
 
-  float height =  round((v-min)/(max-min) * graph_win->height);
+  int height = lrint((v-min)/(max-min) * graph_win->height);
 
   int j = 0;
-  float i = 0;
+  int i = 0;
   wattron(graph_win->win, A_REVERSE);
   for(j = 0; j < graph->bar_width; j++) {
     for(i = 0; i < height; i++)
