@@ -1,4 +1,4 @@
-STAG
+STAG (UNICODE BRANCH)
 ===
 
 ![Stag Progress](http://i.imgur.com/s2BlCIa.png)
