@@ -1,7 +1,7 @@
 CC ?= gcc
 CFLAGS=-Wall -Werror -Wextra -std=c99 -pedantic -Wno-unused-parameter
 # D_BSD_SOURCE for strsep
-LIBS=-lncurses -lm -D_DEFAULT_SOURCE
+LIBS=-lncursesw -lm -D_DEFAULT_SOURCE -D_XOPEN_SOURCE_EXTENDED
 PREFIX ?= /usr/local
 
 .PHONY: install uninstall clean

@@ -32,6 +32,7 @@ typedef struct graph {
   margins_t *margins;
   int bar_width;
   int y_splits; // number of intermediate labels on y axis
+  int unicode;
   int scale_mode; // dynamic, global or fixed
   float scale_min;
   float scale_max;

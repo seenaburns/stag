@@ -3,6 +3,7 @@
 #include <string.h> // strncpy
 #include <stdlib.h> // atoi, malloc, free
 #include <signal.h> // signals for resizing
+#include <locale.h> // for unicode
 
 #include "view.h" // ncurses functionality
 #include "data.h" // values history
@@ -23,9 +24,12 @@
 // Default usage value
 const char stag_usage_string[] =
 "\n"
-"Usage: stag  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE_MODE]  [-w  BAR_WIDTH]  [-y Y_SPLITS]\n"
+"Usage: stag [-u]  [-t  TITLE]  [-m  MARGIN]  [-s  SCALE_MODE]  [-w  BAR_WIDTH]  [-y Y_SPLITS]\n"
 "\n"
 "Options:\n"
+"       -u, --unicode\n"
+"              Use Unicode block characters for improved resolution.\n"
+"\n"
 "       -t, --title=TITLE\n"
 "              Set the title displayed above the graph.\n"
 "\n"
@@ -81,6 +85,7 @@ int main(int argc, char **argv) {
 
   graph.y_splits = 0;
   graph.bar_width = 1;
+  graph.unicode = 0;
   graph.scale_mode = SCALE_DYNAMIC_MODE;
   graph.scale_min = 0;
   graph.scale_max = 0;
@@ -91,6 +96,7 @@ int main(int argc, char **argv) {
   int option_index = 0;
   struct option long_options[] =
   {
+    {"unicode", no_argument, 0, 'u'}, // Unicode characters
     {"title", required_argument, 0, 't'}, // Graph title
     {"margin", required_argument, 0, 'm'}, // Window margins, t,r,b,l
     {"scale", required_argument, 0, 's'}, // max y value
@@ -99,8 +105,13 @@ int main(int argc, char **argv) {
     {0,0,0,0}
   };
 
-  while((opt = getopt_long(argc, argv, "t:m:s:w:y:", long_options, &option_index)) != -1) {
+  while((opt = getopt_long(argc, argv, "ut:m:s:w:y:", long_options, &option_index)) != -1) {
     switch (opt) {
+      case 'u':
+        // Unicode chars
+        graph.unicode = 1;
+        break;
+
       case 't':
         // Title
         strncpy(title, optarg, MAX_TITLE_LENGTH-1);
@@ -157,7 +168,7 @@ int main(int argc, char **argv) {
   }
   
   // Initialize ncurses
-  // setlocale(LC_ALL, "");
+  setlocale(LC_ALL, "");
   initscr();
   noecho();
   curs_set(0);
