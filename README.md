@@ -34,6 +34,8 @@ OPTIONS
        -y, --split=Y_SPLITS
               Set the number of intermediate y-axis ticks between the min and max.
 
+For unicode support (8x better resolution on the graph using the bar characters) install from the [unicode feature branch](https://github.com/seenaburns/stag/tree/unicode) and then use -u.
+
 EXAMPLES
 ---
 Trivial example:
