@@ -1,9 +1,9 @@
 STAG (UNICODE BRANCH)
 ===
 
-The unicode feature branch of Stag uses the unicode bar characters to show partial graph increments and provide better resolution. However, this requires ncursesw which may require additional work for the installer, (e.g. using -lncursesw in the makefile, or referencing the correct ncurses headers) and so support for this branch is limited.
+**The unicode feature branch of Stag uses the unicode bar characters to show partial graph increments and provide better resolution. However, this requires ncursesw which may require additional work for the installer, (e.g. using -lncursesw in the makefile, or referencing the correct ncurses headers) and so support for this branch is limited.**
 
-Once compiled, the unicode feature can be toggled on using -u.
+**Once compiled, the unicode feature can be toggled on using -u.**
 
 ![Stag Progress](http://i.imgur.com/YqgsMV3.png)
 
@@ -37,9 +37,6 @@ OPTIONS
 
        -y, --split=Y_SPLITS
               Set the number of intermediate y-axis ticks between the min and max.
-              
-       -u
-              Enable unicode
 
 EXAMPLES
 ---
