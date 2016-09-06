@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
   
 
   // Read options
-  char opt;
+  signed char opt;
   int option_index = 0;
   struct option long_options[] =
   {
