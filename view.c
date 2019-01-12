@@ -87,7 +87,7 @@ void draw_y_axis(graph_t *graph) {
     mvwaddch(y_win->win, i, 0, ACS_VLINE);
 
   // Draw axis values
-  char axis_label[4];
+  char axis_label[5];
   // Max
   mvwaddch(y_win->win, 0, 0, ACS_LTEE);
   format_axis_value(&axis_label[0], max);
