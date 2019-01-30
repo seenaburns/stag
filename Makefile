@@ -1,7 +1,6 @@
 CC ?= gcc
-CFLAGS=-Wall -Werror -Wextra -std=c99 -pedantic -Wno-unused-parameter
-# D_BSD_SOURCE for strsep
-LIBS=-lncurses -lm -D_DEFAULT_SOURCE
+CFLAGS+=-Wall -Werror -Wextra -std=c99 -pedantic -Wno-unused-parameter -D_BSD_SOURCE
+LIBS=-lncurses -lm
 PREFIX ?= /usr/local
 
 .PHONY: install uninstall clean
@@ -9,7 +8,7 @@ PREFIX ?= /usr/local
 all: stag
 
 stag:
-	$(CC) $(CFLAGS) stag.c view.c data.c -o stag $(LIBS) 
+	$(CC) $(CFLAGS) stag.c view.c data.c -o stag $(LDFLAGS) $(LIBS)
 
 install:
 	install -d "$(DESTDIR)$(PREFIX)/bin"
