@@ -3,6 +3,7 @@
 #include <string.h> // strncpy
 #include <stdlib.h> // atoi, malloc, free
 #include <signal.h> // signals for resizing
+#include <unistd.h> // pause
 
 #include "view.h" // ncurses functionality
 #include "data.h" // values history
@@ -270,6 +271,8 @@ int main(int argc, char **argv) {
       // only print error if not from stdin having an EOF
       mvprintw(0, 0, "Error reading data (%d)\n", status);
       refresh();
+    } else {
+      pause();
     }
   }
 
